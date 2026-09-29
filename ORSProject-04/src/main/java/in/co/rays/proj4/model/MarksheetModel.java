@@ -3,7 +3,9 @@ package in.co.rays.proj4.model;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
+import in.co.rays.proj4.bean.CollegeBean;
 import in.co.rays.proj4.bean.MarksheetBean;
+import in.co.rays.proj4.bean.StudentBean;
 import in.co.rays.proj4.exception.ApplicationException;
 import in.co.rays.proj4.exception.DublicateRecordException;
 import in.co.rays.proj4.util.JDBCDataSource;
@@ -14,6 +16,9 @@ public class MarksheetModel extends BaseModel<MarksheetBean> {
 	public long add(MarksheetBean bean) throws ApplicationException, DublicateRecordException {
 		long PK = 0;
 		Connection conn = null;
+		StudentModel smodel = new StudentModel();
+		StudentBean sbean = smodel.findByPK(bean.getStudentId());
+		
 		try {
 			conn = JDBCDataSource.getConnection();
 			conn.setAutoCommit(false);
@@ -23,7 +28,7 @@ public class MarksheetModel extends BaseModel<MarksheetBean> {
 			pstmt.setLong(1, nextPk());
 			pstmt.setString(2, bean.getRollNo());
 			pstmt.setLong(3, bean.getStudentId());
-			pstmt.setString(4, bean.getName());
+			pstmt.setString(4, sbean.getFirstName()+" "+sbean.getLastName());
 			pstmt.setInt(5, bean.getPhysics());
 			pstmt.setInt(6, bean.getChemistry());
 			pstmt.setInt(7, bean.getMaths());
@@ -47,6 +52,9 @@ public class MarksheetModel extends BaseModel<MarksheetBean> {
 	public void update(MarksheetBean bean) throws ApplicationException, DublicateRecordException {
 
 		Connection conn = null;
+		StudentModel smodel = new StudentModel();
+		StudentBean sbean = smodel.findByPK(bean.getStudentId());
+		
 		try {
 			conn = JDBCDataSource.getConnection();
 			conn.setAutoCommit(false);
@@ -55,7 +63,7 @@ public class MarksheetModel extends BaseModel<MarksheetBean> {
 
 			pstmt.setString(1, bean.getRollNo());
 			pstmt.setLong(2, bean.getStudentId());
-			pstmt.setString(3, bean.getName());
+			pstmt.setString(3, sbean.getFirstName()+" "+sbean.getLastName());
 			pstmt.setInt(4, bean.getPhysics());
 			pstmt.setInt(5, bean.getChemistry());
 			pstmt.setInt(6, bean.getMaths());

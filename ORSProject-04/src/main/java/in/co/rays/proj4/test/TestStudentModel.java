@@ -17,11 +17,11 @@ public class TestStudentModel {
 	
 	public static void main(String[] args) throws ParseException {
 		
-		testAdd();
+		//testAdd();
 		//testUpdate();
 		//testDelete();
 		//testFindByPk();
-		//testSearch();
+		testSearch();
 	}
 	private static void testAdd() throws ParseException {
 		StudentBean bean = new StudentBean();

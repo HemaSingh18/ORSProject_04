@@ -76,7 +76,7 @@ public class TestMarksheetModel {
 	private static void testSearch() {
 		
 		MarksheetBean bean = new MarksheetBean();
-			bean.setName("Arti");
+			//bean.setName("Arti");
 		
 			List<MarksheetBean> list = modell.search(bean, 1, 5);
 			

@@ -13,25 +13,25 @@ import in.co.rays.proj4.model.FacultyModel;
 public class TestFacultyModel {
     public static FacultyModel model = new  FacultyModel();
 	public static void main(String[] args) throws ParseException {
-		//testAdd();
+		testAdd();
 		//testUpdate();
 		//testDelete();
 		//testFindByPK();
-		testSearch();
+		//testSearch();
 	}
 
 	private static void testAdd() throws ParseException {
 		FacultyBean bean = new FacultyBean();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		//bean.setId(1);
-		bean.setCollegeId(3);
-		bean.setCollegeName("Shri Atal Bihari Vajpayee Government Arts And Commerce College");
-		bean.setFirstName("Rohit");
+		bean.setCollegeId(2);
+		//bean.setCollegeName("Shri Atal Bihari Vajpayee Government Arts And Commerce College");
+		bean.setFirstName("Karuna");
 		bean.setLastName("Pandy");
-		bean.setMobileNo("7896524338");
-		bean.setEmail("rohit@gmail.com");
+		bean.setMobileNo("7896524334");
+		bean.setEmail("karuna@gmail.com");
 		bean.setAddress("Vijay nagar indore");
-		bean.setGender("Male");
+		bean.setGender("Female");
 		bean.setDateOfBirth(new java.sql.Date(format.parse("1988-03-18").getTime()));
 		bean.setCreatedBy("root");
 		bean.setModifiedBy("root");
