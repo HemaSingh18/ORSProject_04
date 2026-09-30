@@ -29,10 +29,10 @@ public class RoleModel extends BaseModel<RoleBean> {
 			int i = pstmt.executeUpdate();
 			conn.commit();
 			System.out.println("insert successfully..." + i);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			JDBCDataSource.trnRollBack(conn);
-		}finally {
+		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
 		return PK;
@@ -56,7 +56,7 @@ public class RoleModel extends BaseModel<RoleBean> {
 			pstmt.setLong(7, bean.getId());
 			int i = pstmt.executeUpdate();
 			conn.commit();
-			System.out.println("Records updated..."+i);
+			System.out.println("Records updated..." + i);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -71,26 +71,33 @@ public class RoleModel extends BaseModel<RoleBean> {
 	public String getWhereClause(RoleBean bean) {
 
 		StringBuffer sql = new StringBuffer("");
-		
-			if(bean !=null) {
-				if(bean.getId()>0) {
-					sql.append(" and id ="+bean.getId());
-				}
-				if(bean.getName() !=null && bean.getName().length()>0) {
-					sql.append(" and name like '"+bean.getName()+"%'");
-				}
-				if(bean.getDescription() !=null && bean.getDescription().length()>0) {
-					sql.append(" and description like '"+bean.getDescription()+"%'");
-				}
-				if(bean.getCreatedBy() !=null && bean.getCreatedBy().length()>0) {
-					sql.append(" and created_by like '"+bean.getCreatedBy()+"%'");
-				}
-				if(bean.getModifiedBy() !=null && bean.getModifiedBy().length()>0) {
-					sql.append(" and modified_by like '"+bean.getModifiedBy()+"%'");
-				}
+
+		if (bean != null) {
+			if (bean.getId() > 0) {
+				sql.append(" and id =" + bean.getId());
 			}
-		
+			if (bean.getName() != null && bean.getName().length() > 0) {
+				sql.append(" and name like '" + bean.getName() + "%'");
+			}
+			if (bean.getDescription() != null && bean.getDescription().length() > 0) {
+				sql.append(" and description like '" + bean.getDescription() + "%'");
+			}
+			if (bean.getCreatedBy() != null && bean.getCreatedBy().length() > 0) {
+				sql.append(" and created_by like '" + bean.getCreatedBy() + "%'");
+			}
+			if (bean.getModifiedBy() != null && bean.getModifiedBy().length() > 0) {
+				sql.append(" and modified_by like '" + bean.getModifiedBy() + "%'");
+			}
+		}
+
 		return sql.toString();
+	}
+
+	public RoleBean FindByName(String name) {
+
+		RoleBean bean = findByUniqueColumn("name", name);
+
+		return bean;
 	}
 
 	@Override

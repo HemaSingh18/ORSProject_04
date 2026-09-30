@@ -115,6 +115,13 @@ public class StudentModel extends BaseModel<StudentBean> {
 		return sql.toString();
 	}
 
+	public StudentBean FindByEmail(String email) {
+		
+		StudentBean bean = findByUniqueColumn("email", email);
+		
+		return bean;
+		
+	}
 	@Override
 	public String getTable() {
 

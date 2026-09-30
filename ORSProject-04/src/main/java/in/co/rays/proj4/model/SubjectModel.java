@@ -90,6 +90,14 @@ public class SubjectModel extends BaseModel<SubjectBean>{
 		}
 		return sql.toString();
 	}
+	
+	public SubjectBean FindByName(String name) {
+		
+		SubjectBean bean = findByUniqueColumn("name", name);
+		
+		return bean;
+		
+	}
 
 	@Override
 	public String getTable() {

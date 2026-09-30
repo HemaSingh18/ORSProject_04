@@ -119,6 +119,14 @@ public class UserModel extends BaseModel<UserBean>{
 		}
 		return sql.toString();
 	}
+	
+	public UserBean FindByLogin(String login) {
+		
+		UserBean bean = findByUniqueColumn("login", login);
+		
+		return bean;
+		
+	}
 
 	@Override
 	public String getTable() {

@@ -99,6 +99,12 @@ StringBuffer sql = new StringBuffer("");
 		
 	}
 
+	public CollegeBean FindByName(String name) {
+		
+		CollegeBean bean = findByUniqueColumn("name", name);
+		
+		return bean;
+	}
 	@Override
 	public String getTable() {
 		return "st_college";

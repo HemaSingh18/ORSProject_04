@@ -113,6 +113,14 @@ public class MarksheetModel extends BaseModel<MarksheetBean> {
 		}
 		return sql.toString();
 	}
+	
+	public MarksheetBean FindByRollNumber(String rollNo) {
+		
+		MarksheetBean bean = findByUniqueColumn("rollNo", rollNo);
+		
+		return bean;
+		
+	}
 
 	@Override
 	public String getTable() {

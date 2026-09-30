@@ -54,7 +54,7 @@ public class FacultyModel extends BaseModel<FacultyBean> {
 		Connection conn = null;
 		CollegeModel cmodel = new CollegeModel();
 		CollegeBean cbean = cmodel.findByPK(bean.getCollegeId());
-		
+
 		try {
 			conn = JDBCDataSource.getConnection();
 			conn.setAutoCommit(false);
@@ -121,6 +121,13 @@ public class FacultyModel extends BaseModel<FacultyBean> {
 		}
 
 		return sql.toString();
+	}
+
+	public FacultyBean FindByEmail(String email) {
+
+		FacultyBean bean = findByUniqueColumn("email", email);
+
+		return bean;
 	}
 
 	@Override
