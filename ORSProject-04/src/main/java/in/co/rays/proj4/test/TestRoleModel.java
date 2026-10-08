@@ -23,7 +23,7 @@ public class TestRoleModel {
 		// testAdd();
 		//testUpdate();
 		//testDelete();
-		testFindByPk();
+		//testFindByPk();
 		//testSearch();
 
 	}
@@ -43,11 +43,11 @@ public class TestRoleModel {
 
 	private static void testUpdate() {
 		RoleBean bean = new RoleBean();
-		bean.setId(0);
-		bean.setName("Test_admin");
-		bean.setDescription("Updated...");
-		bean.setCreatedBy("hema");
-		bean.setModifiedBy("hema");
+		bean.setId(5);
+		bean.setName("Hema");
+		bean.setDescription("KIOSK");
+		bean.setCreatedBy("root");
+		bean.setModifiedBy("root");
 		bean.setCreatedDatetime(new Timestamp(new Date().getTime()));
 		bean.setModifiedDatetime(new Timestamp(new Date().getTime()));
 		model.update(bean);
@@ -55,7 +55,7 @@ public class TestRoleModel {
 
 	private static void testDelete() {
 
-		model.delete(2);
+		model.delete(0);
 	}
 	
 	private static void testFindByPk() {

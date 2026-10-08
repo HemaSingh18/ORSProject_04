@@ -14,7 +14,13 @@ public class RoleModel extends BaseModel<RoleBean> {
 	public long add(RoleBean bean) throws ApplicationException, DublicateRecordException {
 		Connection conn = null;
 		long PK = 0;
+		
+		RoleBean existBean = findByName(bean.getName());
+		if(existBean !=null) {
+			throw new DublicateRecordException("Name already exist");
+		}
 		try {
+			PK = nextPk();
 			conn = JDBCDataSource.getConnection();
 			conn.setAutoCommit(false);
 			PreparedStatement pstmt = conn.prepareStatement("insert into " + getTable() + " values(?,?,?,?,?,?,?)");
@@ -42,7 +48,13 @@ public class RoleModel extends BaseModel<RoleBean> {
 	public void update(RoleBean bean) throws ApplicationException, DublicateRecordException {
 
 		Connection conn = null;
+		
+		RoleBean existBean = findByName(bean.getName());
+		if(existBean !=null && existBean.getId() !=bean.getId()) {
+			throw new DublicateRecordException("Name already exist");
+		}
 		try {
+			
 			conn = JDBCDataSource.getConnection();
 			conn.setAutoCommit(false);
 			PreparedStatement pstmt = conn.prepareStatement("update " + getTable()
@@ -93,7 +105,7 @@ public class RoleModel extends BaseModel<RoleBean> {
 		return sql.toString();
 	}
 
-	public RoleBean FindByName(String name) {
+	public RoleBean findByName(String name) {
 
 		RoleBean bean = findByUniqueColumn("name", name);
 

@@ -17,7 +17,14 @@ public class FacultyModel extends BaseModel<FacultyBean> {
 		CollegeModel cmodel = new CollegeModel();
 		CollegeBean cbean = cmodel.findByPK(bean.getCollegeId());
 		long PK = 0;
+		
+		FacultyBean existBean = findByEmail(bean.getEmail());
+		if(existBean !=null) {
+			throw new DublicateRecordException("Email already exist");
+		}
+		
 		try {
+			PK = nextPk();
 			conn = JDBCDataSource.getConnection();
 			conn.setAutoCommit(false);
 			PreparedStatement pstmt = conn
@@ -55,6 +62,11 @@ public class FacultyModel extends BaseModel<FacultyBean> {
 		CollegeModel cmodel = new CollegeModel();
 		CollegeBean cbean = cmodel.findByPK(bean.getCollegeId());
 
+		FacultyBean existBean = findByEmail(bean.getEmail());
+		if(existBean !=null && existBean.getId() !=bean.getId()) {
+			throw new DublicateRecordException("Email already exist");
+		}
+		
 		try {
 			conn = JDBCDataSource.getConnection();
 			conn.setAutoCommit(false);
@@ -123,7 +135,7 @@ public class FacultyModel extends BaseModel<FacultyBean> {
 		return sql.toString();
 	}
 
-	public FacultyBean FindByEmail(String email) {
+	public FacultyBean findByEmail(String email) {
 
 		FacultyBean bean = findByUniqueColumn("email", email);
 

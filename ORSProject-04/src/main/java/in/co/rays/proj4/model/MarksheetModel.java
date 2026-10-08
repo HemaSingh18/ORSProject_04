@@ -15,11 +15,18 @@ public class MarksheetModel extends BaseModel<MarksheetBean> {
 	@Override
 	public long add(MarksheetBean bean) throws ApplicationException, DublicateRecordException {
 		long PK = 0;
+		
+		MarksheetBean existBean = findByRollNumber(bean.getRollNo());
+		if(existBean !=null) {
+			throw new DublicateRecordException("Rollnumber already exist");
+		}
+		
 		Connection conn = null;
 		StudentModel smodel = new StudentModel();
 		StudentBean sbean = smodel.findByPK(bean.getStudentId());
 		
 		try {
+			PK = nextPk();
 			conn = JDBCDataSource.getConnection();
 			conn.setAutoCommit(false);
 			PreparedStatement pstmt = conn
@@ -54,6 +61,11 @@ public class MarksheetModel extends BaseModel<MarksheetBean> {
 		Connection conn = null;
 		StudentModel smodel = new StudentModel();
 		StudentBean sbean = smodel.findByPK(bean.getStudentId());
+		
+		MarksheetBean existBean = findByRollNumber(bean.getRollNo());
+		if(existBean !=null && existBean.getId() != bean.getId()) {
+			throw new DublicateRecordException("Rollnumber already exist");
+		}
 		
 		try {
 			conn = JDBCDataSource.getConnection();
@@ -114,7 +126,7 @@ public class MarksheetModel extends BaseModel<MarksheetBean> {
 		return sql.toString();
 	}
 	
-	public MarksheetBean FindByRollNumber(String rollNo) {
+	public MarksheetBean findByRollNumber(String rollNo) {
 		
 		MarksheetBean bean = findByUniqueColumn("rollNo", rollNo);
 		

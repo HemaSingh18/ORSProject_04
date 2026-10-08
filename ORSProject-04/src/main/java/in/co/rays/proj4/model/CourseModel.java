@@ -13,7 +13,12 @@ public class CourseModel extends BaseModel<CourseBean> {
 	public long add(CourseBean bean) throws ApplicationException, DublicateRecordException {
 
 		Connection conn = null;
+		CourseBean existBean = findByName(bean.getName());
+		if(existBean !=null) {
+			throw new DublicateRecordException("Name already exist");
+		}
 		long PK = 0;
+		PK = nextPk();
 		try {
 			conn = JDBCDataSource.getConnection();
 			conn.setAutoCommit(false);
@@ -42,6 +47,11 @@ public class CourseModel extends BaseModel<CourseBean> {
 	public void update(CourseBean bean) throws ApplicationException, DublicateRecordException {
 
 		Connection conn = null;
+		
+		CourseBean existBean = findByName(bean.getName());
+		if(existBean !=null && existBean.getId() !=bean.getId()) {
+			throw new DublicateRecordException("Name already exist");
+		}
 		try {
 			conn = JDBCDataSource.getConnection();
 			conn.setAutoCommit(false);
@@ -89,7 +99,7 @@ public class CourseModel extends BaseModel<CourseBean> {
 		return sql.toString();
 	}
 
-	public CourseBean FindByName(String name) {
+	public CourseBean findByName(String name) {
 		
 		CourseBean bean = findByUniqueColumn("name", name);
 		

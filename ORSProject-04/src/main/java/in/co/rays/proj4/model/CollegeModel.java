@@ -14,7 +14,13 @@ public class CollegeModel extends BaseModel<CollegeBean>{
 	public long add(CollegeBean bean) throws ApplicationException, DublicateRecordException {
 		int PK = 0;
 		Connection conn = null;
+		CollegeBean existBean = findByName(bean.getName());
+		if(existBean !=null) {
+			
+			throw new DublicateRecordException("Name already exist");
+		}
 		try {
+			PK = nextPk();
 			conn = JDBCDataSource.getConnection();
 			conn.setAutoCommit(false);
 			PreparedStatement pstmt = conn.prepareStatement("insert into "+getTable()+" values(?,?,?,?,?,?,?,?,?,?)");
@@ -44,6 +50,12 @@ public class CollegeModel extends BaseModel<CollegeBean>{
 	public void update(CollegeBean bean) throws ApplicationException, DublicateRecordException {
 		
 		Connection conn = null;
+		
+		CollegeBean existBean = findByName(bean.getName());
+		if(existBean !=null && existBean.getId() !=bean.getId()) {
+			
+			throw new DublicateRecordException("Name already exist");
+		}
 		try {
 			conn = JDBCDataSource.getConnection();
 			conn.setAutoCommit(false);
@@ -99,7 +111,7 @@ StringBuffer sql = new StringBuffer("");
 		
 	}
 
-	public CollegeBean FindByName(String name) {
+	public CollegeBean findByName(String name) {
 		
 		CollegeBean bean = findByUniqueColumn("name", name);
 		

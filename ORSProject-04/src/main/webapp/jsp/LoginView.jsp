@@ -7,40 +7,48 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<%
+	String succ = ServletUtility.getSuccessMessage(request);
+	String error = ServletUtility.getErrorMessage(request);
+	%>
+
 	<%@ include file="Header.jsp"%>
 
 	<div align="center">
 
 		<h1>Login</h1>
+		
+		<h3 style="color: green"><%=succ%></h3>
+		<h3 style="color: red"><%=error%>
 
-		<form action="<%=ORSView.LOGIN_CTL%>" method="post">
+			<form action="<%=ORSView.LOGIN_CTL%>" method="post">
 
-			<table>
+				<table>
 
-				<tr>
-					<th>Login</th>
-					<td><input type="text" name="login"
-						placeholder="enter you login" value=""></td>
-					<td style="color: red"><%=ServletUtility.getErrorMessage("login", request)%></td>
-				</tr>
+					<tr>
+						<th>Login</th>
+						
+						<td><input type="text" name="login"
+							placeholder="enter you login" value=""></td>
+						<td style="color: red"><%=ServletUtility.getErrorMessage("login", request)%></td>
+					</tr>
 
-				<tr>
-					<th>Password</th>
-					<td><input type="password" name="password"
-						placeholder="enter you password" value=""></td>
-					<td style="color: red"><%=ServletUtility.getErrorMessage("password", request)%></td>
-				</tr>
+					<tr>
+						<th>Password</th>
+						<td><input type="password" name="password"
+							placeholder="enter you password" value=""></td>
+						<td style="color: red"><%=ServletUtility.getErrorMessage("password", request)%></td>
+					</tr>
 
-				<tr>
-					<th></th>
-					<td><input type="submit" name="operation"
-						value="<%=LoginCtl.OP_SIGNIN%>"></td>
-				</tr>
+					<tr>
+						<th></th>
+						<td><input type="submit" name="operation"
+							value="<%=LoginCtl.OP_SIGNIN%>"></td>
+					</tr>
 
-			</table>
+				</table>
 
-		</form>
-
+			</form>
 	</div>
 
 	<%@include file="Footer.jsp"%>

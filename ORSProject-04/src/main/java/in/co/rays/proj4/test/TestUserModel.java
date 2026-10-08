@@ -37,7 +37,7 @@ public class TestUserModel {
 		bean.setRoleId(2);
 		bean.setUnsuccessfulLogin(0);
 		bean.setGender("Male");
-		bean.setLastLogin(new java.sql.Date(format.parse("2026-09-21").getTime()));
+		bean.setLastLogin(new Timestamp(new Date().getTime()));
 		bean.setUserLock("N");
 		bean.setRegisteredIp("192.168.1.14");
 		bean.setLastLoginIp("192.168.1.14");
@@ -62,7 +62,7 @@ public class TestUserModel {
 		bean.setRoleId(2);
 		bean.setUnsuccessfulLogin(0);
 		bean.setGender("Male");
-		bean.setLastLogin(new java.sql.Date(format.parse("2026-09-21").getTime()));
+		bean.setLastLogin(new Timestamp(new Date().getTime()));
 		bean.setUserLock("N");
 		bean.setRegisteredIp("192.168.1.14");
 		bean.setLastLoginIp("192.168.1.14");

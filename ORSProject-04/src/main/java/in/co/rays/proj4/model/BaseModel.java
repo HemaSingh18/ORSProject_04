@@ -94,8 +94,8 @@ public abstract class BaseModel<T extends BaseBean> {
 		sql.append(getWhereClause(bean));
 
 		if (pageSize > 0) {
-			pageNo = (pageNo - 1) * pageSize;
-			sql.append(" limit " + pageNo + "," + pageSize);
+			int index = (pageNo - 1) * pageSize;
+			sql.append(" limit " + index + "," + pageSize);
 		}
 		System.out.println("sql===>" + sql.toString());
 		try {

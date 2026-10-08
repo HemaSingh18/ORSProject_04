@@ -14,8 +14,14 @@ public class SubjectModel extends BaseModel<SubjectBean>{
 	public long add(SubjectBean bean) throws ApplicationException, DublicateRecordException {
 
 		Connection conn = null;
+		
+		SubjectBean existBean = findByName(bean.getName());
+		if(existBean !=null) {
+			throw new DublicateRecordException("Name already exist");
+		}
 		long PK = 0;
 		try {
+			PK = nextPk();
 			conn = JDBCDataSource.getConnection();
 			conn.setAutoCommit(false);
 			PreparedStatement pstmt = conn.prepareStatement("insert into " + getTable() + " values(?,?,?,?,?,?,?,?)");
@@ -44,6 +50,11 @@ public class SubjectModel extends BaseModel<SubjectBean>{
 	public void update(SubjectBean bean) throws ApplicationException, DublicateRecordException {
 		
 		Connection conn = null;
+		
+		SubjectBean existBean = findByName(bean.getName());
+		if(existBean !=null && existBean.getId() !=bean.getId()) {
+			throw new DublicateRecordException("Name already exist");
+		}
 		try {
 			conn = JDBCDataSource.getConnection();
 			conn.setAutoCommit(false);
@@ -91,7 +102,7 @@ public class SubjectModel extends BaseModel<SubjectBean>{
 		return sql.toString();
 	}
 	
-	public SubjectBean FindByName(String name) {
+	public SubjectBean findByName(String name) {
 		
 		SubjectBean bean = findByUniqueColumn("name", name);
 		

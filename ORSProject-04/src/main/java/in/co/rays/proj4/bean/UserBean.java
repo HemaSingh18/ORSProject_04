@@ -1,6 +1,7 @@
 package in.co.rays.proj4.bean;
 
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class UserBean extends BaseBean{
@@ -9,12 +10,13 @@ public class UserBean extends BaseBean{
 	private String lastName;
 	private String login;
 	private String password;
+	private String confirmPassword;
 	private Date dob;
 	private String mobileNo;
 	private long roleId;
 	private int unsuccessfulLogin;
 	private String gender;
-	private Date lastLogin;
+	private Timestamp lastLogin;
 	private String userLock;
 	private String registeredIp;
 	private String lastLoginIp;
@@ -42,6 +44,13 @@ public class UserBean extends BaseBean{
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
 	}
 	public Date getDob() {
 		return dob;
@@ -73,10 +82,10 @@ public class UserBean extends BaseBean{
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-	public Date getLastLogin() {
+	public Timestamp getLastLogin() {
 		return lastLogin;
 	}
-	public void setLastLogin(Date lastLogin) {
+	public void setLastLogin(Timestamp lastLogin) {
 		this.lastLogin = lastLogin;
 	}
 	public String getUserLock() {
@@ -112,7 +121,7 @@ public class UserBean extends BaseBean{
 			setRoleId(rs.getLong("role_id"));
 			setUnsuccessfulLogin(rs.getInt("unsuccessful_login"));
 			setGender(rs.getString("gender"));
-			setLastLogin(rs.getDate("last_login"));
+			setLastLogin(rs.getTimestamp("last_login"));
 			setUserLock(rs.getString("user_lock"));
 			setRegisteredIp(rs.getString("registered_ip"));
 			setLastLoginIp(rs.getString("last_login_ip"));
