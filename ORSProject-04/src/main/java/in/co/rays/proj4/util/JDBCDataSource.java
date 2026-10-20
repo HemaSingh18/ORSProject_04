@@ -14,15 +14,16 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 //3. provide Maximum Connection limitation with database.
 public final class JDBCDataSource {
 
-	private static final JDBCDataSource jdbc = null;
-	private  ComboPooledDataSource cpds = null;
+	private static JDBCDataSource jdbc = null;
+	private ComboPooledDataSource cpds = null;
 
 	private static ResourceBundle rb = ResourceBundle.getBundle("in.co.rays.proj4.bundle.System");
 
 	private JDBCDataSource() {
 
-		//comobopool data source ki class predefine class hai. and 4 properties follow kiya
-		//Reliable connection ho raha hai (connection + limitation )
+		// comobopool data source ki class predefine class hai. and 4 properties follow
+		// kiya
+		// Reliable connection ho raha hai (connection + limitation )
 		cpds = new ComboPooledDataSource();
 		try {
 			cpds.setDriverClass(rb.getString("driver"));
@@ -41,13 +42,14 @@ public final class JDBCDataSource {
 	private static JDBCDataSource getInstance() {
 
 		if (jdbc == null) {
-			return new JDBCDataSource();
+			jdbc = new JDBCDataSource();
+			return jdbc;
 		}
 		return jdbc;
 	}
-	
-	public static Connection getConnection()  {
-		
+
+	public static Connection getConnection() {
+
 		try {
 			return getInstance().cpds.getConnection();
 		} catch (SQLException e) {
@@ -55,20 +57,22 @@ public final class JDBCDataSource {
 		}
 		return null;
 	}
+
 	public static void closeConnection(Connection conn) {
-		if(conn != null) {
+		if (conn != null) {
 			try {
 				conn.close();
-			}catch(SQLException e) {
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
 	}
+
 	public static void trnRollBack(Connection conn) {
-		if(conn != null) {
+		if (conn != null) {
 			try {
 				conn.rollback();
-			}catch(SQLException e) {
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}

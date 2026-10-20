@@ -7,7 +7,7 @@ import in.co.rays.proj4.util.DataValidator;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 
-@WebServlet("/RoleCtl")
+@WebServlet("/ctl/RoleCtl")
 public class RoleCtl extends BaseCtl<RoleBean, RoleModel> {
 
 	@Override
@@ -33,6 +33,7 @@ public class RoleCtl extends BaseCtl<RoleBean, RoleModel> {
 		RoleBean bean = new RoleBean();
 
 		bean.setName(DataUtility.getString(request.getParameter("name")));
+		bean.setId(DataUtility.getLong(request.getParameter("id")));
 		bean.setDescription(DataUtility.getString(request.getParameter("description")));
 
 		populateDTO(bean, request);

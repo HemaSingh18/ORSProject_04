@@ -8,6 +8,7 @@ import in.co.rays.proj4.exception.DublicateRecordException;
 import in.co.rays.proj4.model.BaseModel;
 import in.co.rays.proj4.util.DataUtility;
 import in.co.rays.proj4.util.DataValidator;
+import in.co.rays.proj4.util.MessageSource;
 import in.co.rays.proj4.util.ServletUtility;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -82,6 +83,16 @@ public abstract class BaseCtl<B extends BaseBean, M extends BaseModel> extends H
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		// Edit
+		long id = DataUtility.getLong(request.getParameter("id"));
+		M model = getModel();
+
+		if (id > 0) {
+
+			BaseBean bean = model.findByPK(id);
+
+			ServletUtility.setBean(bean, request);
+		}
 		ServletUtility.forward(getView(), request, response);
 
 	}
@@ -89,15 +100,23 @@ public abstract class BaseCtl<B extends BaseBean, M extends BaseModel> extends H
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		B bean = populateBean(request);
 		M model = getModel();
+
 		try {
-			model.add(bean);
-			ServletUtility.setSuccessMessage("record saved successfully", request);
-		}catch(DublicateRecordException e) {
+
+			if (bean.getId() > 0) {
+				model.update(bean);
+				ServletUtility.setSuccessMessage("record updated successfully", request);
+			} else {
+				model.add(bean);
+				ServletUtility.setSuccessMessage("record saved successfully", request);
+			}
+		} catch (DublicateRecordException e) {
 			ServletUtility.setErrorMessage("record already exist", request);
 		}
+
 		ServletUtility.forward(getView(), request, response);
 
 	}
@@ -105,6 +124,9 @@ public abstract class BaseCtl<B extends BaseBean, M extends BaseModel> extends H
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
+		getMessageSource(request);
+
 		System.out.println("service method");
 
 		if (request.getMethod() == "POST" && validate(request) == false) {
@@ -118,5 +140,11 @@ public abstract class BaseCtl<B extends BaseBean, M extends BaseModel> extends H
 	public abstract M getModel();
 
 	public abstract String getView();
+
+	public MessageSource getMessageSource(HttpServletRequest request) {
+
+		MessageSource messagesource = MessageSource.getInstance();
+		return messagesource;
+	}
 
 }

@@ -7,7 +7,7 @@ import in.co.rays.proj4.util.DataValidator;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 
-@WebServlet("/UserCtl")
+@WebServlet("/ctl/UserCtl")
 public class UserCtl extends BaseCtl<UserBean, UserModel> {
 
 	@Override
@@ -39,6 +39,11 @@ public class UserCtl extends BaseCtl<UserBean, UserModel> {
 			request.setAttribute("dob", "date of birth is required");
 			pass = false;
 		}
+		if (DataValidator.isNull(request.getParameter("roleId"))) {
+			request.setAttribute("roleId", "role is required");
+			pass = false;
+		}
+
 
 		return pass;
 	}
@@ -54,6 +59,7 @@ public class UserCtl extends BaseCtl<UserBean, UserModel> {
 		bean.setPassword(DataUtility.getString(request.getParameter("password")));
 		bean.setGender(DataUtility.getString(request.getParameter("gender")));
 		bean.setDob(DataUtility.getDate(request.getParameter("dob")));
+		bean.setRoleId(DataUtility.getLong(request.getParameter("roleId")));
 
 		return bean;
 	}
