@@ -83,16 +83,14 @@ public abstract class BaseCtl<B extends BaseBean, M extends BaseModel> extends H
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		// Edit
 		long id = DataUtility.getLong(request.getParameter("id"));
 		M model = getModel();
 
 		if (id > 0) {
-
 			BaseBean bean = model.findByPK(id);
-
 			ServletUtility.setBean(bean, request);
 		}
+
 		ServletUtility.forward(getView(), request, response);
 
 	}
@@ -100,25 +98,24 @@ public abstract class BaseCtl<B extends BaseBean, M extends BaseModel> extends H
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 		B bean = populateBean(request);
 		M model = getModel();
+		// Long id = DataUtility.getLong(request.getParameter("id"));
 
 		try {
-
 			if (bean.getId() > 0) {
 				model.update(bean);
 				ServletUtility.setSuccessMessage("record updated successfully", request);
 			} else {
 				model.add(bean);
-				ServletUtility.setSuccessMessage("record saved successfully", request);
+				ServletUtility.setSuccessMessage("record saved successfully ", request);
 			}
 		} catch (DublicateRecordException e) {
 			ServletUtility.setErrorMessage("record already exist", request);
 		}
 
+		ServletUtility.setBean(bean, request);
 		ServletUtility.forward(getView(), request, response);
-
 	}
 
 	@Override
@@ -129,7 +126,13 @@ public abstract class BaseCtl<B extends BaseBean, M extends BaseModel> extends H
 
 		System.out.println("service method");
 
-		if (request.getMethod() == "POST" && validate(request) == false) {
+		preload(request);
+
+		if (request.getMethod().equals("POST") && validate(request) == false) {
+
+			// BaseBean bean = populateBean(request);
+			// ServletUtility.setBean(bean, request);
+
 			ServletUtility.forward(getView(), request, response);
 			return;
 		}
@@ -142,9 +145,7 @@ public abstract class BaseCtl<B extends BaseBean, M extends BaseModel> extends H
 	public abstract String getView();
 
 	public MessageSource getMessageSource(HttpServletRequest request) {
-
-		MessageSource messagesource = MessageSource.getInstance();
-		return messagesource;
+		MessageSource messageSource = MessageSource.getInstance();
+		return messageSource;
 	}
-
 }

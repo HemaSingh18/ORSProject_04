@@ -27,7 +27,7 @@
 		<form action="<%=ORSView.SUBJECT_CTL%>" method="post">
 
 			<table>
-				<tr>
+				<%-- <tr>
 					<th>Name</th>
 					<td><input type="text" name="name"
 						placeholder="enter subject name"
@@ -35,7 +35,18 @@
 					<td style="color: red"><%=ServletUtility.getErrorMessage("name", request)%></td>
 
 				</tr>
-
+ --%>
+				<tr>
+					<th>Course Name</th>
+					<td><select name="courseId">
+							<option value="">-- Select course --</option>
+							<option value="1">Physics</option>
+							<option value="2">Chemistry</option>
+							<option value="3">Maths</option>
+							<option value="4">Computer Science</option>
+					</select></td>
+					<td></td>
+				</tr>
 				<tr>
 					<th>description</th>
 					<td><input type="text" name="description"
@@ -44,17 +55,6 @@
 					<td style="color: red"><%=ServletUtility.getErrorMessage("description", request)%></td>
 				</tr>
 
-				<tr>
-					<th>Course Id</th>
-					<td><select name="courseId">
-							<option value="">-- Select courseId --</option>
-							<option value="Physics">1</option>
-							<option value="Chemistry">2</option>
-							<option value="Maths">3</option>
-							<option value="Computer Science">4</option>
-					</select></td>
-					<td></td>
-				</tr>
 
 
 				<th></th>

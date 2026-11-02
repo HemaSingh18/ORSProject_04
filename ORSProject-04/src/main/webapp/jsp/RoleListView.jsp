@@ -46,7 +46,7 @@
 				</tr>
 			</table>
 
-			<table border="1px" width="100%">
+			<table border="5px" width="100%">
 
 				<tr style="background: skyblue">
 

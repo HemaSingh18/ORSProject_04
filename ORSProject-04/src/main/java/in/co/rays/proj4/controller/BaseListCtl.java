@@ -57,7 +57,6 @@ public abstract class BaseListCtl<B extends BaseBean, M extends BaseModel> exten
 			}
 		}
 		if (OP_NEXT.equalsIgnoreCase(op)) {
-
 			pageNo = DataUtility.getInt(request.getParameter("pageNo"));
 			pageNo++;
 		}

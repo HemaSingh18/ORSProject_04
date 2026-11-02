@@ -1,3 +1,7 @@
+<%@page import="in.co.rays.proj4.controller.UserListCtl"%>
+<%@page import="in.co.rays.proj4.util.HTMLUtility"%>
+<%@page import="in.co.rays.proj4.util.DataUtility"%>
+<%@page import="java.util.HashMap"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.List"%>
 <%@page import="in.co.rays.proj4.util.ServletUtility"%>
@@ -10,18 +14,47 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<jsp:useBean id="bean" class="in.co.rays.proj4.bean.UserBean"
+		scope="request"></jsp:useBean>
 	<%
+	String succ = ServletUtility.getSuccessMessage(request);
+	String error = ServletUtility.getErrorMessage(request);
 	List<UserBean> list = ServletUtility.getList(request);
 	int pageNo = ServletUtility.getPageNo(request);
 	int pageSize = ServletUtility.getPageSize(request);
 	int index = (pageNo - 1) * pageSize + 1;
 	Iterator<UserBean> it = list.iterator();
+
+	/* static dropdown */
+	HashMap map = new HashMap();
+	map.put("male", "male");
+	map.put("female", "female");
+	map.put("other", "other");
 	%>
 	<%@ include file="Header.jsp"%>
 	<div align="center">
 		<h1>User List</h1>
+		<h3 style="color: green"><%=succ%></h3>
+		<h3 style="color: red"><%=error%></h3>
 
 		<form action="<%=ORSView.USER_LIST_CTL%>" method="post">
+
+			<table>
+				<tr>
+					<th>First Name</th>
+					<td><input type="text" name="firstName" value="">
+					
+					 <th>Date Of Birth</th>
+                    <td><input type="Date" name="dob" value="">
+					
+					<th>Gender</th>
+					<td><%=HTMLUtility.getList("gender", DataUtility.getStringData(bean.getGender()), map)%><input
+						type="submit" name="operation" value="<%=UserListCtl.OP_SEARCH%>"></td> 
+
+				</tr>
+
+			</table>
+
 			<table border="1px" width="100%">
 				<tr style="background: skyblue">
 					<th><input type="checkbox"
@@ -39,7 +72,7 @@
 
 				<%
 				while (it.hasNext()) {
-					UserBean bean = it.next();
+					bean = it.next();
 				%>
 				<tr align="center">
 					<td><input type="checkbox" name="ids"

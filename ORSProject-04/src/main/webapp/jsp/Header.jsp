@@ -44,6 +44,9 @@
 	<a href="<%=ORSView.SUBJECT_LIST_CTL%>">Subject List</a> |
 	<a href="<%=ORSView.LOGIN_CTL + "?operation=logout"%>">Logout</a> |
 	<a href="<%=ORSView.CHANGE_PASSWORD_CTL%>">ChangePassword</a> |
+	<a href="<%=ORSView.GYM_CTL %>">Add Gym</a> |
+	<a href="<%=ORSView.ATM_CTL%>">Add Atm</a> |
+	<a href="<%=ORSView.ATM_LIST_CTL%>">Atm List</a> |
 
 	<%
 	} else {

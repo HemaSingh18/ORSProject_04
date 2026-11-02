@@ -7,13 +7,12 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 
 @WebServlet("/ctl/StudentListCtl")
-public class StudentListCtl extends BaseListCtl<StudentBean, StudentModel>{
+public class StudentListCtl extends BaseListCtl<StudentBean, StudentModel> {
 
-	
 	@Override
 	protected StudentBean populateBean(HttpServletRequest request) {
-StudentBean bean = new StudentBean();
-		
+		StudentBean bean = new StudentBean();
+
 		bean.setCollegeId(DataUtility.getLong(request.getParameter("collegeId")));
 		bean.setCollegeName(DataUtility.getString(request.getParameter("collegeName")));
 		bean.setFirstName(DataUtility.getString(request.getParameter("firstName")));
@@ -21,19 +20,19 @@ StudentBean bean = new StudentBean();
 		bean.setDateOfBirth(DataUtility.getDate(request.getParameter("dateOfBirth")));
 		bean.setMobileNo(DataUtility.getString(request.getParameter("mobileNo")));
 		bean.setEmail(DataUtility.getString(request.getParameter("email")));
-		
+
 		return bean;
 	}
-	
+
 	@Override
 	public StudentModel getModel() {
-		
+
 		return new StudentModel();
 	}
 
 	@Override
 	public String getView() {
-		
+
 		return ORSView.STUDENT_LIST_VIEW;
 	}
 

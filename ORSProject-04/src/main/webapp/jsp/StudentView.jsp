@@ -40,13 +40,13 @@
 					<th>College Name</th>
 					<td><select name="collegeId">
 							<option value="">-- Select College --</option>
-							<option value="1">1 - SGSIT</option>
-							<option value="2">2 - Indore Christian College</option>
-							<option value="3">3 - SABVG</option>
-							<option value="4">4 - Government Holkar Science College</option>
-							<option value="5">5 - DAVV</option>
+							<option value="1">SGSIT</option>
+							<option value="2">Indore Christian College</option>
+							<option value="3">SABVG</option>
+							<option value="4">Government Holkar Science College</option>
+							<option value="5">DAVV</option>
 					</select></td>
-					<td style="color: red"><%=ServletUtility.getErrorMessage("collegeName" ,request)%></td>
+					<td style="color: red"><%=ServletUtility.getErrorMessage("collegeId" ,request)%></td>
 				</tr>
 
 				<tr>

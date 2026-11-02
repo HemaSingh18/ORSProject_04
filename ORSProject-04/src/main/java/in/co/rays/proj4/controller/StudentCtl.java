@@ -20,11 +20,6 @@ public class StudentCtl extends BaseCtl<StudentBean, StudentModel> {
 			request.setAttribute("collegeId", "college id is required");
 			pass = false;
 		}
-		if (DataValidator.isNull(request.getParameter("collegeName"))) {
-
-			request.setAttribute("collegeName", "college name is required");
-			pass = false;
-		}
 		if (DataValidator.isNull(request.getParameter("firstName"))) {
 
 			request.setAttribute("firstName", "first name is required");

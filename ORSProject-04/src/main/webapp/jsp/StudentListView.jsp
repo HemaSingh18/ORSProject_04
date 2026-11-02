@@ -31,7 +31,7 @@
 		<h3 style="color: red"><%=error%></h3>
 
 		<form action="<%=ORSView.STUDENT_LIST_CTL%>" method="post">
-
+			<input type="hidden" name="pageNo" value="<%=pageNo%>">
 			<table>
 				<tr>
 					<th>First Name</th>
@@ -41,7 +41,7 @@
 
 				</tr>
 			</table>
-			<table align ="left">
+			<table align="left">
 				<tr>
 					<th>Date Of Birth</th>
 					<td><input type="Date" name="dateOfBirth"

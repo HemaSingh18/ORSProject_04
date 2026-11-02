@@ -1,3 +1,4 @@
+<%@page import="in.co.rays.proj4.controller.CourseCtl"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="in.co.rays.proj4.bean.CourseBean"%>
 <%@page import="java.util.List"%>
@@ -33,7 +34,17 @@
 
 		<form action="<%=ORSView.COURSE_LIST_CTL%>" method="post">
 
-			<table border="1px" width="100%">
+			<table>
+				<tr>
+					<th>Duration</th>
+					<td><input type="text" name="duration"
+						placeholder="search by Duration" value=""><input
+						type="submit" name="operation" value="<%=CourseCtl.OP_SEARCH%>"></td>
+				</tr>
+
+			</table>
+
+			<table border="5px" width="100%">
 
 				<tr style="background: skyblue">
 
@@ -56,8 +67,9 @@
 					<td><input type="checkbox" name="ids"
 						value="<%=bean.getId()%>"></td>
 					<td><%=index++%></td>
-<%--  					 <td><%=bean.getId()%></td> 
- --%>					<td><%=bean.getName()%></td>
+					<%--  					 <td><%=bean.getId()%></td> 
+ --%>
+					<td><%=bean.getName()%></td>
 					<td><%=bean.getDescription()%></td>
 					<td><%=bean.getDuration()%></td>
 

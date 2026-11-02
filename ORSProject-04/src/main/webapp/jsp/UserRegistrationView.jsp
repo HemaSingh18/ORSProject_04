@@ -61,7 +61,7 @@
 				</tr>
 
 				<tr>
-					<th><%=ms.get("register.gender") %><font color="red">*</font></th>
+					<th><%=ms.get("register.gender")%><font color="red">*</font></th>
 					<td><select name='gender'>
 							<option selected value=''>------------Select-------------</option>
 							<option value='female'>female</option>
@@ -71,7 +71,7 @@
 				</tr>
 
 				<tr>
-					<th><%=ms.get("register.dob") %><font color="red">*</font></th>
+					<th><%=ms.get("register.dob")%><font color="red">*</font></th>
 					<td><input type="date" name="dob" value=""></td>
 					<td style="color: red"><%=ServletUtility.getErrorMessage("dob", request)%></td>
 				</tr>

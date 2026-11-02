@@ -27,9 +27,9 @@ public class UserModel extends BaseModel<UserBean> {
 			conn = JDBCDataSource.getConnection();
 			conn.setAutoCommit(false);
 			PreparedStatement pstmt = conn
-					.prepareStatement("insert into " + getTable() + " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+					.prepareStatement("insert into " + getTable() + " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
-			pstmt.setLong(1, nextPk());
+			pstmt.setLong(1, PK);
 			pstmt.setString(2, bean.getFirstName());
 			pstmt.setString(3, bean.getLastName());
 			pstmt.setString(4, bean.getLogin());
@@ -38,7 +38,7 @@ public class UserModel extends BaseModel<UserBean> {
 			pstmt.setString(7, bean.getMobileNo());
 			pstmt.setLong(8, bean.getRoleId());
 			pstmt.setInt(9, bean.getUnsuccessfulLogin());
-			;
+			
 			pstmt.setString(10, bean.getGender());
 			pstmt.setTimestamp(11, bean.getLastLogin());
 			pstmt.setString(12, bean.getUserLock());
@@ -48,6 +48,7 @@ public class UserModel extends BaseModel<UserBean> {
 			pstmt.setString(16, bean.getModifiedBy());
 			pstmt.setTimestamp(17, bean.getCreatedDatetime());
 			pstmt.setTimestamp(18, bean.getModifiedDatetime());
+			pstmt.setString(19, bean.getPhoto());
 			int i = pstmt.executeUpdate();
 			conn.commit();
 			System.out.println("Insert Data successfully ...." + i);
@@ -86,7 +87,6 @@ public class UserModel extends BaseModel<UserBean> {
 			pstmt.setString(6, bean.getMobileNo());
 			pstmt.setLong(7, bean.getRoleId());
 			pstmt.setInt(8, bean.getUnsuccessfulLogin());
-			;
 			pstmt.setString(9, bean.getGender());
 			pstmt.setTimestamp(10, bean.getLastLogin());
 			pstmt.setString(11, bean.getUserLock());
@@ -134,6 +134,9 @@ public class UserModel extends BaseModel<UserBean> {
 			}
 			if (bean.getGender() != null && bean.getGender().length() > 0) {
 				sql.append(" and gender like '" + bean.getGender() + "'");
+			}
+			if(bean.getDob()!=null && bean.getDob().getTime()>0) {
+				sql.append(" and dob = '" + new java.sql.Date(bean.getDob().getTime()) +"'");
 			}
 		}
 		return sql.toString();
@@ -217,6 +220,28 @@ public class UserModel extends BaseModel<UserBean> {
 		return null;
 	}
 
+	public void updatePhoto( long id, String photo) {
+		
+		Connection conn = null;
+		try {
+			conn = JDBCDataSource.getConnection();
+			conn.setAutoCommit(false); //Begin transaction
+			PreparedStatement pstmt = conn.prepareStatement("update "+getTable()+" set photo=? where id = ? ");
+			pstmt.setString(1, photo);
+			pstmt.setLong(2, id);
+			
+			int i = pstmt.executeUpdate();
+			conn.commit();
+			System.out.println("upload photo "+i);
+			
+		}catch(Exception e) {
+			JDBCDataSource.trnRollBack(conn);
+			throw new ApplicationException("Exception in updating User Photo");
+		}finally {
+			JDBCDataSource.closeConnection(conn);
+		}
+		
+	}
 	public long register(UserBean bean) {
 
 		long pk = add(bean);
@@ -248,5 +273,6 @@ public class UserModel extends BaseModel<UserBean> {
 	public UserBean getBean() {
 		return new UserBean();
 	}
+	
 
 }

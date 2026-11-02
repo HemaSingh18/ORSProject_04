@@ -1,3 +1,4 @@
+<%@page import="in.co.rays.proj4.controller.MarksheetCtl"%>
 <%@page import="in.co.rays.proj4.bean.MarksheetBean"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.List"%>
@@ -32,7 +33,15 @@
 
 		<form action="<%=ORSView.MARKSHEET_LIST_CTL%>" method="post">
 
-			<table border="1px" width="100%">
+			<table>
+				<tr>
+					<th>Roll Number</th>
+					<td><input type="number" name="rollNo"
+						placeholder="sech by roll no" value=""><input
+						type="submit" name="operation" value="<%=MarksheetCtl.OP_SEARCH%>"></td>
+				</tr>
+			</table>
+			<table border="5px" width="100%">
 
 				<tr style="background: skyblue">
 					<th><input type="checkbox"
@@ -72,7 +81,7 @@
 				}
 				%>
 			</table>
-			<%@ include file ="ListFooter.jsp" %>
+			<%@ include file="ListFooter.jsp"%>
 		</form>
 	</div>
 	<%@ include file="Footer.jsp"%>

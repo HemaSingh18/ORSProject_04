@@ -33,14 +33,16 @@
 		<h3 style="color: red"><%=error%></h3>
 
 		<form action="<%=ORSView.FACULTY_LIST_CTL%>" method="post">
-		
-		   <table>
-		       <tr>   
-		       <th>First Name</th>
-		          <td><input type="text" name="firstName" placeholder="search by first name" value=""><input type="submit" name="operation" value="<%=FacultyCtl.OP_SEARCH%>"></td>
-		       </tr>
-		   
-		   </table>
+
+			<table>
+				<tr>
+					<th>First Name</th>
+					<td><input type="text" name="firstName"
+						placeholder="search by first name" value=""><input
+						type="submit" name="operation" value="<%=FacultyCtl.OP_SEARCH%>"></td>
+				</tr>
+
+			</table>
 
 			<table border="5px" width="100%">
 

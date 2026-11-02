@@ -76,23 +76,23 @@ public class LoginCtl extends BaseCtl<UserBean, UserModel> {
 		UserBean bean = populateBean(request);
 
 		RoleModel rmodel = new RoleModel();
-		
 
-		if(OP_SIGNIN.equalsIgnoreCase(op)) {
-			
+		if (OP_SIGNIN.equalsIgnoreCase(op)) {
+
 			bean = model.authenticate(bean.getLogin(), bean.getPassword());
 			if (bean != null) {
 				session.setAttribute("user", bean);
 				RoleBean rbean = rmodel.findByPK(bean.getRoleId());
 				System.out.println(bean.getId());
 				session.setAttribute("role", rbean.getName());
+
 				ServletUtility.redirect(ORSView.WELCOME_CTL, request, response);
 				return;
 			} else {
 				ServletUtility.setErrorMessage("Invalid Login and Password", request);
 			}
 		}
-		
+
 		ServletUtility.forward(getView(), request, response);
 	}
 

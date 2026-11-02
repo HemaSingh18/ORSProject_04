@@ -61,8 +61,6 @@ public class HTMLUtility {
 	 */
 	public static String getList(String name, String selectedVal, List list) {
 
-		Collections.sort(list);
-
 		List<DropdownListBean> dd = (List<DropdownListBean>) list;
 
 		StringBuffer sb = new StringBuffer("<select class='form-control' name='" + name + "'>");

@@ -87,7 +87,7 @@ public abstract class BaseModel<T extends BaseBean> {
 
 	public List<T> search(T bean, int pageNo, int pageSize) {
 		Connection conn = null;
-		List<T> list = new ArrayList<T>();
+		ArrayList<T> list = new ArrayList<T>();
 
 		StringBuffer sql = new StringBuffer("select * from " + getTable() + " where 1=1");
 
@@ -95,7 +95,7 @@ public abstract class BaseModel<T extends BaseBean> {
 
 		if (pageSize > 0) {
 			int index = (pageNo - 1) * pageSize;
-			sql.append(" limit " + index + "," + pageSize);
+			sql.append(" limit " + index + ", " + pageSize);
 		}
 		System.out.println("sql===>" + sql.toString());
 		try {
@@ -146,4 +146,41 @@ public abstract class BaseModel<T extends BaseBean> {
 
 	}
 
+	// search record with pagination only, without filter(getWhereClause())
+		public List<T> list(int pageNo, int pageSize) throws ApplicationException {
+
+			ArrayList<T> list = new ArrayList<T>();
+			Connection conn = null;
+
+			StringBuffer sql = new StringBuffer("select * from " + getTable());
+
+			if (pageSize > 0) {
+				pageNo = (pageNo - 1) * pageSize;
+				sql.append(" limit " + pageNo + "," + pageSize);
+			}
+
+			try {
+				conn = JDBCDataSource.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+				ResultSet rs = pstmt.executeQuery();
+				while (rs.next()) {
+					T bean = getBean();
+					bean.setResultSet(rs);;
+					list.add(bean);
+				}
+				rs.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new ApplicationException("Exception : Exception in getting list of users");
+			} finally {
+				JDBCDataSource.closeConnection(conn);
+			}
+			return list;
+
+		}
+
+		// search all records without pagination without filter
+		public List<T> list() throws ApplicationException {
+			return list(0, 0);
+		}
 }

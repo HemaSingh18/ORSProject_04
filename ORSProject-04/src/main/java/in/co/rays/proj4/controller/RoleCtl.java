@@ -37,7 +37,7 @@ public class RoleCtl extends BaseCtl<RoleBean, RoleModel> {
 		bean.setDescription(DataUtility.getString(request.getParameter("description")));
 
 		populateDTO(bean, request);
-		
+
 		return bean;
 	}
 
@@ -49,7 +49,6 @@ public class RoleCtl extends BaseCtl<RoleBean, RoleModel> {
 
 	@Override
 	public String getView() {
-		// TODO Auto-generated method stub
 		return ORSView.ROLE_VIEW;
 	}
 
