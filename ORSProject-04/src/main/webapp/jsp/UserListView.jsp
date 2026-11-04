@@ -1,3 +1,4 @@
+<%@page import="in.co.rays.proj4.model.RoleModel"%>
 <%@page import="in.co.rays.proj4.controller.UserListCtl"%>
 <%@page import="in.co.rays.proj4.util.HTMLUtility"%>
 <%@page import="in.co.rays.proj4.util.DataUtility"%>
@@ -55,7 +56,7 @@
 
 			</table>
 
-			<table border="1px" width="100%">
+			<table border="5px" width="100%">
 				<tr style="background: skyblue">
 					<th><input type="checkbox"
 						onclick="document.querySelectorAll('input[name=ids]').forEach(c=>c.checked=this.checked)">Select
@@ -66,6 +67,7 @@
 					<th>Login</th>
 					<th>Gender</th>
 					<th>Dob</th>
+					<th>Role Name</th>
 					<th>Edit</th>
 
 				</tr>
@@ -73,6 +75,10 @@
 				<%
 				while (it.hasNext()) {
 					bean = it.next();
+					
+					RoleModel rmodel = new RoleModel();
+					
+					RoleBean rbean = rmodel.findByPK(bean.getRoleId());
 				%>
 				<tr align="center">
 					<td><input type="checkbox" name="ids"
@@ -83,6 +89,7 @@
 					<td><%=bean.getLogin()%></td>
 					<td><%=bean.getGender()%></td>
 					<td><%=bean.getDob()%></td>
+					<td><%=rbean.getName()%></td>
 					<td><a href="<%=ORSView.USER_CTL + "?id=" + bean.getId()%>">Edit</a></td>
 
 				</tr>
