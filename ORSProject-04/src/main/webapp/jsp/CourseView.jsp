@@ -58,6 +58,9 @@
 				</tr>
 
 				<tr>
+					<input type="hidden" name="id" value=<%=bean.getId()%>>
+				</tr>
+				<tr>
 					<th></th>
 					<td><input type="submit" name="operation"
 						value="<%=CourseCtl.OP_SAVE%>"></td>

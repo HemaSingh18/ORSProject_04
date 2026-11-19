@@ -37,20 +37,29 @@
 		<h1>User List</h1>
 		<h3 style="color: green"><%=succ%></h3>
 		<h3 style="color: red"><%=error%></h3>
+		
+		
+		<div align="right" class="d-flex gap-2">
+				<a href="<%=ORSView.USER_REPORT_CTL%>" target="_blank"
+					class="btn btn-sm btn-warning fw-semibold"> <i
+					class="bi bi-file-earmark-pdf me-1"></i> Print PDF
+				</a> <a href="<%=ORSView.USER_REPORT_CTL%>?type=doc" target="_blank"
+					class="btn btn-sm btn-info fw-semibold"> <i
+					class="bi bi-file-earmark-word me-1"></i> Print DOC
+				</a> 
+			</div>
 
 		<form action="<%=ORSView.USER_LIST_CTL%>" method="post">
 
 			<table>
 				<tr>
 					<th>First Name</th>
-					<td><input type="text" name="firstName" value="">
-					
-					 <th>Date Of Birth</th>
-                    <td><input type="Date" name="dob" value="">
-					
+					<td><input type="text" name="firstName" placeholder ="enter your first name" value="">
+					<th>Date Of Birth</th>
+					<td><input type="Date" name="dob" value="">
 					<th>Gender</th>
 					<td><%=HTMLUtility.getList("gender", DataUtility.getStringData(bean.getGender()), map)%><input
-						type="submit" name="operation" value="<%=UserListCtl.OP_SEARCH%>"></td> 
+						type="submit" name="operation" value="<%=UserListCtl.OP_SEARCH%>"></td>
 
 				</tr>
 
@@ -62,6 +71,7 @@
 						onclick="document.querySelectorAll('input[name=ids]').forEach(c=>c.checked=this.checked)">Select
 						All</th>
 					<th>S No.</th>
+					<th>Profile</th>
 					<th>First Name</th>
 					<th>Last Name</th>
 					<th>Login</th>
@@ -75,15 +85,20 @@
 				<%
 				while (it.hasNext()) {
 					bean = it.next();
-					
+
 					RoleModel rmodel = new RoleModel();
-					
+
 					RoleBean rbean = rmodel.findByPK(bean.getRoleId());
 				%>
 				<tr align="center">
 					<td><input type="checkbox" name="ids"
 						value="<%=bean.getId()%>"></td>
 					<td><%=index++%></td>
+					
+					<td><img
+						src="<%=ORSView.UPLOAD_PHOTO_CTL + "?id=" + bean.getId()%>"
+						width="60" height="60"></td>
+						
 					<td><%=bean.getFirstName()%></td>
 					<td><%=bean.getLastName()%></td>
 					<td><%=bean.getLogin()%></td>
@@ -96,8 +111,9 @@
 				<%
 				}
 				%>
+				<%@include file="ListFooter.jsp"%>
 			</table>
-			<%@include file="ListFooter.jsp"%>
+
 		</form>
 	</div>
 	<%@ include file="Footer.jsp"%>

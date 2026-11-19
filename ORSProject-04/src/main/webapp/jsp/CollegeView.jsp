@@ -18,21 +18,21 @@
 	String succ = ServletUtility.getSuccessMessage(request);
 	String error = ServletUtility.getErrorMessage(request);
 	%>
-	
+
 	<%@ include file="Header.jsp"%>
-	
+
 	<div align="center">
-	
+
 		<h1><%=bean != null && bean.getId() > 0 ? "Update College" : "Add College"%></h1>
-		
+
 		<h3 style="color: green"><%=succ%></h3>
 		<h3 style="color: red"><%=error%></h3>
-		
+
 
 		<form action="<%=ORSView.COLLEGE_CTL%>" method="post">
-		
+
 			<table>
-			
+
 				<tr>
 					<th>Name</th>
 					<td><input type="text" name="name"
@@ -57,8 +57,8 @@
 						value="<%=DataUtility.getStringData(bean.getState())%>"></td>
 					<td style="color: red"><%=ServletUtility.getErrorMessage("state", request)%></td>
 				</tr>
-				
-					<tr>
+
+				<tr>
 					<th>City</th>
 					<td><input type="text" name="city" placeholder="enter city"
 						value="<%=DataUtility.getStringData(bean.getCity())%>"></td>
@@ -67,9 +67,15 @@
 
 				<tr>
 					<th>Phone Number</th>
-					<td><input type="text" name="phoneNo" placeholder="enter phone number"
+					<td><input type="text" name="phoneNo"
+						placeholder="enter phone number"
 						value="<%=DataUtility.getStringData(bean.getPhoneNo())%>"></td>
 					<td style="color: red"><%=ServletUtility.getErrorMessage("phoneNo", request)%></td>
+				</tr>
+				
+				<tr>
+					<td><input type="hidden" name="id"
+						value="<%=bean.getId()%>"></td>
 				</tr>
 
 				<th></th>
@@ -77,12 +83,10 @@
 					value="<%=CollegeCtl.OP_SAVE%>"></td>
 
 			</table>
-
 		</form>
-
 	</div>
 
 	<%@ include file="Footer.jsp"%>
-	
+
 </body>
 </html>

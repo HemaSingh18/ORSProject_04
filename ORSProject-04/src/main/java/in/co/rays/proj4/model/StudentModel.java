@@ -9,17 +9,33 @@ import in.co.rays.proj4.exception.ApplicationException;
 import in.co.rays.proj4.exception.DublicateRecordException;
 import in.co.rays.proj4.util.JDBCDataSource;
 
+/**
+ * StudentModel class provides database operations for Student records. It
+ * extends BaseModel to perform CRUD operations on StudentBean objects.
+ *
+ * @author Rays Technologies
+ * @version 1.0
+ */
 public class StudentModel extends BaseModel<StudentBean> {
 
+	/**
+	 * Inserts a new student record into the database. Checks whether a student with
+	 * the same email already exists.
+	 *
+	 * @param bean StudentBean object containing student details.
+	 * @return Primary key of the inserted student.
+	 * @throws ApplicationException     if a database operation fails.
+	 * @throws DublicateRecordException if the student email already exists.
+	 */
 	@Override
 	public long add(StudentBean bean) throws ApplicationException, DublicateRecordException {
 		Connection conn = null;
 		CollegeModel cmodel = new CollegeModel();
 		CollegeBean cbean = cmodel.findByPK(bean.getCollegeId());
 		long PK = 0;
-		
+
 		StudentBean existBean = findByEmail(bean.getEmail());
-		if(existBean !=null) {
+		if (existBean != null) {
 			throw new DublicateRecordException("Email already exist");
 		}
 
@@ -54,14 +70,23 @@ public class StudentModel extends BaseModel<StudentBean> {
 		return PK;
 	}
 
+	/**
+	 * Updates an existing student record in the database. Checks whether the email
+	 * is already used by another student.
+	 *
+	 * @param bean StudentBean object containing updated student details.
+	 * @throws ApplicationException     if a database operation fails.
+	 * @throws DublicateRecordException if the email is already used by another
+	 *                                  student.
+	 */
 	@Override
 	public void update(StudentBean bean) throws ApplicationException, DublicateRecordException {
 		Connection conn = null;
 		CollegeModel cmodel = new CollegeModel();
 		CollegeBean cbean = cmodel.findByPK(bean.getCollegeId());
-		
+
 		StudentBean existBean = findByEmail(bean.getEmail());
-		if(existBean !=null && existBean.getId() !=bean.getId()) {
+		if (existBean != null && existBean.getId() != bean.getId()) {
 			throw new DublicateRecordException("Email already exist");
 		}
 		try {
@@ -94,6 +119,12 @@ public class StudentModel extends BaseModel<StudentBean> {
 
 	}
 
+	/**
+	 * Builds the SQL WHERE clause based on the provided student search criteria.
+	 *
+	 * @param bean StudentBean object containing search criteria.
+	 * @return SQL WHERE conditions as a String.
+	 */
 	@Override
 	public String getWhereClause(StudentBean bean) {
 
@@ -125,19 +156,36 @@ public class StudentModel extends BaseModel<StudentBean> {
 		return sql.toString();
 	}
 
+	/**
+	 * Finds a student record using the student's email address.
+	 *
+	 * @param email Email address of the student to search.
+	 * @return StudentBean object if found; otherwise, null.
+	 */
 	public StudentBean findByEmail(String email) {
-		
+
 		StudentBean bean = findByUniqueColumn("email", email);
-		
+
 		return bean;
-		
+
 	}
+
+	/**
+	 * Returns the name of the student database table.
+	 *
+	 * @return Database table name.
+	 */
 	@Override
 	public String getTable() {
 
 		return "st_student";
 	}
 
+	/**
+	 * Creates and returns a new StudentBean object.
+	 *
+	 * @return A new StudentBean instance.
+	 */
 	@Override
 	public StudentBean getBean() {
 

@@ -28,18 +28,21 @@
 					<th>Login</th>
 					<td><input type="email" name="login"
 						placeholder="enter your email" value=""></td>
+					<td style="color: red"><%=ServletUtility.getErrorMessage("login", request)%></td>
 				</tr>
 
 				<tr>
 					<th>Password</th>
 					<td><input type="password" name="oldPassword"
 						placeholder="enter your old password" value=""></td>
+					<td style="color: red"><%=ServletUtility.getErrorMessage("oldPassword", request)%></td>
 				</tr>
 
 				<tr>
 					<th>New Password</th>
 					<td><input type="password" name="newPassword"
 						placeholder="enter your new password" value=""></td>
+					<td style="color: red"><%=ServletUtility.getErrorMessage("newPassword", request)%></td>
 				</tr>
 
 				<tr>

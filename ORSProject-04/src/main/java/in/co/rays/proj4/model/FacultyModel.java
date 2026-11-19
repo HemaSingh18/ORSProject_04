@@ -9,20 +9,36 @@ import in.co.rays.proj4.exception.ApplicationException;
 import in.co.rays.proj4.exception.DublicateRecordException;
 import in.co.rays.proj4.util.JDBCDataSource;
 
+/**
+ * FacultyModel class provides database operations for Faculty records. It
+ * extends BaseModel and implements CRUD operations for FacultyBean.
+ *
+ * @author Rays Technologies
+ * @version 1.0
+ */
 public class FacultyModel extends BaseModel<FacultyBean> {
 
+	/**
+	 * Adds a new faculty record to the database. Retrieves the associated college
+	 * details and checks for duplicate email.
+	 *
+	 * @param bean the FacultyBean containing faculty details
+	 * @return the primary key of the inserted faculty record
+	 * @throws ApplicationException     if an application error occurs
+	 * @throws DublicateRecordException if the email already exists
+	 */
 	@Override
 	public long add(FacultyBean bean) throws ApplicationException, DublicateRecordException {
 		Connection conn = null;
 		CollegeModel cmodel = new CollegeModel();
 		CollegeBean cbean = cmodel.findByPK(bean.getCollegeId());
 		long PK = 0;
-		
+
 		FacultyBean existBean = findByEmail(bean.getEmail());
-		if(existBean !=null) {
+		if (existBean != null) {
 			throw new DublicateRecordException("Email already exist");
 		}
-		
+
 		try {
 			PK = nextPk();
 			conn = JDBCDataSource.getConnection();
@@ -56,6 +72,14 @@ public class FacultyModel extends BaseModel<FacultyBean> {
 		return PK;
 	}
 
+	/**
+	 * Updates an existing faculty record in the database. Retrieves the associated
+	 * college details and checks for duplicate email.
+	 *
+	 * @param bean the FacultyBean containing updated faculty details
+	 * @throws ApplicationException     if an application error occurs
+	 * @throws DublicateRecordException if another faculty record has the same email
+	 */
 	@Override
 	public void update(FacultyBean bean) throws ApplicationException, DublicateRecordException {
 		Connection conn = null;
@@ -63,10 +87,10 @@ public class FacultyModel extends BaseModel<FacultyBean> {
 		CollegeBean cbean = cmodel.findByPK(bean.getCollegeId());
 
 		FacultyBean existBean = findByEmail(bean.getEmail());
-		if(existBean !=null && existBean.getId() !=bean.getId()) {
+		if (existBean != null && existBean.getId() != bean.getId()) {
 			throw new DublicateRecordException("Email already exist");
 		}
-		
+
 		try {
 			conn = JDBCDataSource.getConnection();
 			conn.setAutoCommit(false);
@@ -100,6 +124,12 @@ public class FacultyModel extends BaseModel<FacultyBean> {
 
 	}
 
+	/**
+	 * Builds the WHERE clause using the supplied faculty search criteria.
+	 *
+	 * @param bean the FacultyBean containing search criteria
+	 * @return the generated SQL WHERE conditions as a string
+	 */
 	@Override
 	public String getWhereClause(FacultyBean bean) {
 		StringBuffer sql = new StringBuffer("");
@@ -135,6 +165,12 @@ public class FacultyModel extends BaseModel<FacultyBean> {
 		return sql.toString();
 	}
 
+	/**
+	 * Finds a faculty record by email address.
+	 *
+	 * @param email the email address to search for
+	 * @return the FacultyBean matching the specified email, or null if not found
+	 */
 	public FacultyBean findByEmail(String email) {
 
 		FacultyBean bean = findByUniqueColumn("email", email);
@@ -142,11 +178,21 @@ public class FacultyModel extends BaseModel<FacultyBean> {
 		return bean;
 	}
 
+	/**
+	 * Returns the name of the faculty database table.
+	 *
+	 * @return the table name "st_faculty"
+	 */
 	@Override
 	public String getTable() {
 		return "st_faculty";
 	}
 
+	/**
+	 * Creates and returns a new FacultyBean object.
+	 *
+	 * @return a new FacultyBean instance
+	 */
 	@Override
 	public FacultyBean getBean() {
 		return new FacultyBean();

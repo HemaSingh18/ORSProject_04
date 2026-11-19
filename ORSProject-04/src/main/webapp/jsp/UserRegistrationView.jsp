@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<%@page import="in.co.rays.proj4.util.DataUtility"%>
+<%@page import="in.co.rays.proj4.util.HTMLUtility"%>
+<%@page import="java.util.HashMap"%>
 <%@page import="in.co.rays.proj4.util.ServletUtility"%>
 <%@page import="in.co.rays.proj4.controller.UserRegistrationCtl"%>
 <html>
@@ -8,9 +11,16 @@
 </head>
 <body>
 
+	<jsp:useBean id="bean" class="in.co.rays.proj4.bean.UserBean"
+		scope="request"></jsp:useBean>
+
 	<%
 	String succ = ServletUtility.getSuccessMessage(request);
 	String error = ServletUtility.getErrorMessage(request);
+	HashMap<String, String> map = new HashMap<String, String>();
+	map.put("male", "male");
+	map.put("female", "female");
+	map.put("other", "other");
 	%>
 
 	<%@ include file="Header.jsp"%>
@@ -62,11 +72,7 @@
 
 				<tr>
 					<th><%=ms.get("register.gender")%><font color="red">*</font></th>
-					<td><select name='gender'>
-							<option selected value=''>------------Select-------------</option>
-							<option value='female'>female</option>
-							<option value='male'>male</option>
-					</select></td>
+					<td><%=HTMLUtility.getList("gender", DataUtility.getStringData(bean.getGender()), map)%></td>
 					<td style="color: red"><%=ServletUtility.getErrorMessage("gender", request)%></td>
 				</tr>
 

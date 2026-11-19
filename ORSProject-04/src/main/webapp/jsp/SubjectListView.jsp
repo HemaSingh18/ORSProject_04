@@ -27,9 +27,19 @@
 		<h3 style="color: green"><%=succ%></h3>
 		<h3 style="color: red"><%=error%></h3>
 
+		<div align="right" class="d-flex gap-2">
+			<a href="<%=ORSView.SUBJECT_REPORT_CTL%>" target="_blank"
+				class="btn btn-sm btn-warning fw-semibold"> <i
+				class="bi bi-file-earmark-pdf me-1"></i> Print PDF
+			</a> <a href="<%=ORSView.SUBJECT_REPORT_CTL%>?type=doc" target="_blank"
+				class="btn btn-sm btn-info fw-semibold"> <i
+				class="bi bi-file-earmark-word me-1"></i> Print DOC
+			</a>
+		</div>
+
 		<form action="<%=ORSView.SUBJECT_LIST_CTL%>" method="post">
-		
-		<table>
+
+			<table>
 				<tr>
 					<th>Name</th>
 					<td><input type="text" name="name" value=""
@@ -37,7 +47,7 @@
 						name="operation" value="<%=SubjectCtl.OP_SEARCH%>"></td>
 				</tr>
 			</table>
-			
+
 			<table border="5px" width="100%">
 				<tr style="background: skyblue">
 					<th><input type="checkbox"
@@ -69,6 +79,6 @@
 			</table>
 		</form>
 	</div>
-	<%@include file="Footer.jsp" %>
+	<%@include file="Footer.jsp"%>
 </body>
 </html>

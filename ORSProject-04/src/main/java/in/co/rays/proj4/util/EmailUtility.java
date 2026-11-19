@@ -15,7 +15,7 @@ import jakarta.mail.internet.MimeMessage;
 /**
  * Email Utility provides Email Services
  * 
- * @author Rays Technologies
+ * @author Hema Singh
  * @version 1.0
  * @Copyright (c) Rays Technologies
  * 

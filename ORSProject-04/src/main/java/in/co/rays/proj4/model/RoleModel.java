@@ -8,15 +8,31 @@ import in.co.rays.proj4.exception.ApplicationException;
 import in.co.rays.proj4.exception.DublicateRecordException;
 import in.co.rays.proj4.util.JDBCDataSource;
 
+/**
+ * RoleModel class provides database operations for Role records. It extends
+ * BaseModel to perform CRUD operations on RoleBean objects.
+ * 
+ * @author Rays Technologies
+ * @version 1.0
+ */
 public class RoleModel extends BaseModel<RoleBean> {
 
+	/**
+	 * Inserts a new role record into the database. Checks whether a role with the
+	 * same name already exists.
+	 *
+	 * @param bean RoleBean object containing role details.
+	 * @return Primary key of the inserted role.
+	 * @throws ApplicationException     if a database operation fails.
+	 * @throws DublicateRecordException if the role name already exists.
+	 */
 	@Override
 	public long add(RoleBean bean) throws ApplicationException, DublicateRecordException {
 		Connection conn = null;
 		long PK = 0;
-		
+
 		RoleBean existBean = findByName(bean.getName());
-		if(existBean !=null) {
+		if (existBean != null) {
 			throw new DublicateRecordException("Name already exist");
 		}
 		try {
@@ -44,17 +60,26 @@ public class RoleModel extends BaseModel<RoleBean> {
 		return PK;
 	}
 
+	/**
+	 * Updates an existing role record in the database. Checks whether the role name
+	 * is already used by another role.
+	 *
+	 * @param bean RoleBean object containing updated role details.
+	 * @throws ApplicationException     if a database operation fails.
+	 * @throws DublicateRecordException if the role name is already used by another
+	 *                                  record.
+	 */
 	@Override
 	public void update(RoleBean bean) throws ApplicationException, DublicateRecordException {
 
 		Connection conn = null;
-		
+
 		RoleBean existBean = findByName(bean.getName());
-		if(existBean !=null && existBean.getId() !=bean.getId()) {
+		if (existBean != null && existBean.getId() != bean.getId()) {
 			throw new DublicateRecordException("Name already exist");
 		}
 		try {
-			
+
 			conn = JDBCDataSource.getConnection();
 			conn.setAutoCommit(false);
 			PreparedStatement pstmt = conn.prepareStatement("update " + getTable()
@@ -79,6 +104,12 @@ public class RoleModel extends BaseModel<RoleBean> {
 
 	}
 
+	/**
+	 * Builds the SQL WHERE clause based on the provided role search criteria.
+	 *
+	 * @param bean RoleBean object containing search criteria.
+	 * @return SQL WHERE conditions as a String.
+	 */
 	@Override
 	public String getWhereClause(RoleBean bean) {
 
@@ -105,6 +136,12 @@ public class RoleModel extends BaseModel<RoleBean> {
 		return sql.toString();
 	}
 
+	/**
+	 * Finds a role record by its name.
+	 *
+	 * @param name Name of the role to search.
+	 * @return RoleBean object if found; otherwise, null.
+	 */
 	public RoleBean findByName(String name) {
 
 		RoleBean bean = findByUniqueColumn("name", name);
@@ -112,12 +149,22 @@ public class RoleModel extends BaseModel<RoleBean> {
 		return bean;
 	}
 
+	/**
+	 * Returns the name of the role database table.
+	 *
+	 * @return Database table name.
+	 */
 	@Override
 	public String getTable() {
 
 		return "st_role";
 	}
 
+	/**
+	 * Creates and returns a new RoleBean object.
+	 *
+	 * @return A new RoleBean instance.
+	 */
 	@Override
 	public RoleBean getBean() {
 
