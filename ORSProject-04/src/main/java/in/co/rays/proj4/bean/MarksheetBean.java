@@ -146,7 +146,8 @@ public class MarksheetBean extends BaseBean {
 	 */
 	@Override
 	public String getValue() {
-		return null;
+		return name;
+		
 	}
 
 	/**

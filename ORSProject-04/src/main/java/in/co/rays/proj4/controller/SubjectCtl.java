@@ -1,9 +1,13 @@
 
 package in.co.rays.proj4.controller;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 
+import in.co.rays.proj4.bean.CourseBean;
 import in.co.rays.proj4.bean.SubjectBean;
+import in.co.rays.proj4.model.CourseModel;
 import in.co.rays.proj4.model.SubjectModel;
 import in.co.rays.proj4.util.DataUtility;
 import in.co.rays.proj4.util.DataValidator;
@@ -15,7 +19,7 @@ import jakarta.servlet.http.HttpServletRequest;
  * subject details and populates SubjectBean with data received from the HTTP
  * request.
  *
- * @author Rays Technologies
+ * @author Hema Singh
  * @version 1.0
  */
 @WebServlet("/ctl/SubjectCtl")
@@ -37,12 +41,12 @@ public class SubjectCtl extends BaseCtl<SubjectBean, SubjectModel> {
 
 		boolean pass = true;
 
-		if (DataValidator.isNull(request.getParameter("name"))) {
-
-			log.warn("Subject name is required");
-			request.setAttribute("name", "name is required");
-			pass = false;
-		}
+		/*
+		 * if (DataValidator.isNull(request.getParameter("name"))) {
+		 * 
+		 * log.warn("Subject name is required"); request.setAttribute("name",
+		 * "name is required"); pass = false; }
+		 */
 		if (DataValidator.isNull(request.getParameter("description"))) {
 
 			log.warn("Subject description is required");
@@ -79,6 +83,7 @@ public class SubjectCtl extends BaseCtl<SubjectBean, SubjectModel> {
 		log.debug("SubjectCtl populateBean method started");
 
 		SubjectBean bean = new SubjectBean();
+		bean.setId(DataUtility.getLong(request.getParameter("id")));
 		bean.setName(DataUtility.getString(request.getParameter("name")));
 		bean.setDescription(DataUtility.getString(request.getParameter("description")));
 		bean.setCourseId(DataUtility.getLong(request.getParameter("courseId")));
@@ -95,6 +100,15 @@ public class SubjectCtl extends BaseCtl<SubjectBean, SubjectModel> {
 	 *
 	 * @return SubjectModel object
 	 */
+
+	@Override
+	protected void preload(HttpServletRequest request) {
+
+		CourseModel model = new CourseModel();
+		List<CourseBean> courseList = model.search(null, 0, 0);
+		request.setAttribute("courseList", courseList);
+	}
+
 	@Override
 	public SubjectModel getModel() {
 

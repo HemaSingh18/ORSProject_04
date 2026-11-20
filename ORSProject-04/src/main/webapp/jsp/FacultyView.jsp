@@ -22,9 +22,9 @@
 	String error = ServletUtility.getErrorMessage(request);
 	List<CollegeBean> collegeList  = (List) request.getAttribute("collegeList");
 	HashMap<String, String> map = new HashMap<String, String>();
-	map.put("male", "male");
-	map.put("female", "female");
-	map.put("other", "other");
+	map.put("Male", "Male");
+	map.put("Female", "Female");
+	map.put("Other", "Other");
 	%>
 
 	<%@include file="Header.jsp"%>
@@ -36,8 +36,9 @@
 			<table>
 				<tr>
 					<th>College<font color="red">*</font></th>
-					<td><%=HTMLUtility.getList("collegeId", DataUtility.getStringData(bean.getCollegeId()), collegeList)%><td>
-					<td style="color: red"><%=ServletUtility.getErrorMessage("name", request)%></td>
+					<td><%=HTMLUtility.getList("collegeId", DataUtility.getStringData(bean.getCollegeId()), collegeList)%>
+					<td>
+					<td style="color: red"><%=ServletUtility.getErrorMessage("collegeId", request)%></td>
 				</tr>
 
 				<tr>
@@ -88,10 +89,10 @@
 
 				<tr>
 					<th>DOB<font color="red">*</font></th>
-					<td><input type="date" name="dob"
-						placeholder="enter your date of birth"
-						value="<%=DataUtility.getStringData(bean.getDateOfBirth())%>"></td>
-					<td style="color: red"><%=ServletUtility.getErrorMessage("dob", request)%></td>
+					<td><input type="date" name="dateOfBirth"
+						value="<%=DataUtility.getDateString(bean.getDateOfBirth())%>"></td>
+
+					<td style="color: red"><%=ServletUtility.getErrorMessage("dateOfBirth", request)%></td>
 				</tr>
 
 				<tr>

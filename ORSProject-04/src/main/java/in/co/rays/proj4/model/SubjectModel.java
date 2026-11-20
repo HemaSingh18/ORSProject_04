@@ -3,6 +3,7 @@ package in.co.rays.proj4.model;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
+import in.co.rays.proj4.bean.CourseBean;
 import in.co.rays.proj4.bean.SubjectBean;
 import in.co.rays.proj4.exception.ApplicationException;
 import in.co.rays.proj4.exception.DublicateRecordException;
@@ -35,13 +36,18 @@ public class SubjectModel extends BaseModel<SubjectBean> {
 		if (existBean != null) {
 			throw new DublicateRecordException("Name already exist");
 		}
+		
+		CourseModel cmodel = new CourseModel();
+		CourseBean cbean = cmodel.findByPK(bean.getCourseId());
+		bean.setName(cbean.getName());
+		
 		long PK = 0;
 		try {
 			PK = nextPk();
 			conn = JDBCDataSource.getConnection();
 			conn.setAutoCommit(false);
 			PreparedStatement pstmt = conn.prepareStatement("insert into " + getTable() + " values(?,?,?,?,?,?,?,?)");
-			pstmt.setLong(1, nextPk());
+			pstmt.setLong(1, PK);
 			pstmt.setString(2, bean.getName());
 			pstmt.setString(3, bean.getDescription());
 			pstmt.setLong(4, bean.getCourseId());
@@ -80,6 +86,11 @@ public class SubjectModel extends BaseModel<SubjectBean> {
 		if (existBean != null && existBean.getId() != bean.getId()) {
 			throw new DublicateRecordException("Name already exist");
 		}
+
+		CourseModel cmodel = new CourseModel();
+		CourseBean cbean = cmodel.findByPK(bean.getCourseId());
+		bean.setName(cbean.getName());
+
 		try {
 			conn = JDBCDataSource.getConnection();
 			conn.setAutoCommit(false);

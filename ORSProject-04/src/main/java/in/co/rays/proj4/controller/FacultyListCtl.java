@@ -54,7 +54,7 @@ public class FacultyListCtl extends BaseListCtl<FacultyBean, FacultyModel> {
 
 		log.debug("Faculty search details populated in FacultyBean");
 
-		populateDTO(bean, request);
+	//	populateDTO(bean, request);
 
 		log.info("FacultyBean populated successfully for faculty list");
 

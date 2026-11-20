@@ -60,7 +60,7 @@ public class UserCtl extends BaseCtl<UserBean, UserModel> {
 			pass = false;
 		}
 		if (DataValidator.isNull(request.getParameter("dob"))) {
-			request.setAttribute("dob", "dob is required");
+			request.setAttribute("dob", "date of birth is required");
 			pass = false;
 		}
 		if (DataValidator.isNull(request.getParameter("roleId"))) {
@@ -89,7 +89,6 @@ public class UserCtl extends BaseCtl<UserBean, UserModel> {
 
 		UserBean bean = new UserBean();
 
-		bean.setId(DataUtility.getLong(request.getParameter("id")));
 		bean.setFirstName(DataUtility.getString(request.getParameter("firstName")));
 		bean.setLastName(DataUtility.getString(request.getParameter("lastName")));
 		bean.setLogin(DataUtility.getString(request.getParameter("login")));
@@ -100,7 +99,9 @@ public class UserCtl extends BaseCtl<UserBean, UserModel> {
 		bean.setRoleId(DataUtility.getLong(request.getParameter("roleId")));
 
 		log.info("UserBean populated successfully");
+		populateDTO(bean, request);
 
+		bean.setId(DataUtility.getLong(request.getParameter("id")));
 		return bean;
 	}
 

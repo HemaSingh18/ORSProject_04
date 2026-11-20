@@ -1,9 +1,13 @@
 
 package in.co.rays.proj4.controller;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 
+import in.co.rays.proj4.bean.CollegeBean;
 import in.co.rays.proj4.bean.StudentBean;
+import in.co.rays.proj4.model.CollegeModel;
 import in.co.rays.proj4.model.StudentModel;
 import in.co.rays.proj4.util.DataUtility;
 import in.co.rays.proj4.util.DataValidator;
@@ -108,9 +112,17 @@ public class StudentCtl extends BaseCtl<StudentBean, StudentModel> {
 
 		populateDTO(bean, request);
 
+		bean.setId(DataUtility.getLong(request.getParameter("id")));
 		log.info("StudentBean populated successfully");
 
 		return bean;
+	}
+
+	@Override
+	protected void preload(HttpServletRequest request) {
+		CollegeModel model = new CollegeModel();
+		List<CollegeBean> collegeList = model.search(null, 0, 0);
+		request.setAttribute("collegeList", collegeList);
 	}
 
 	/**

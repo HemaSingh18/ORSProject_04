@@ -74,7 +74,7 @@
 					<td><%=bean.getMaths()%></td>
 
 					<td><a
-						href="<%=ORSView.MARKSHEET_CTL + "?id" + bean.getId()%>">Edit</a></td>
+						href="<%=ORSView.MARKSHEET_CTL + "?id=" + bean.getId()%>">Edit</a></td>
 
 				</tr>
 				<%

@@ -1,10 +1,14 @@
 
 package in.co.rays.proj4.controller;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 
 import in.co.rays.proj4.bean.MarksheetBean;
+import in.co.rays.proj4.bean.StudentBean;
 import in.co.rays.proj4.model.MarksheetModel;
+import in.co.rays.proj4.model.StudentModel;
 import in.co.rays.proj4.util.DataUtility;
 import in.co.rays.proj4.util.DataValidator;
 import jakarta.servlet.annotation.WebServlet;
@@ -49,12 +53,13 @@ public class MarksheetCtl extends BaseCtl<MarksheetBean, MarksheetModel> {
 			request.setAttribute("studentId", "student id is required");
 			pass = false;
 		}
-		if (DataValidator.isNull(DataUtility.getString(request.getParameter("name")))) {
-
-			log.warn("Student name is required");
-			request.setAttribute("name", "name is required");
-			pass = false;
-		}
+		/*
+		 * if
+		 * (DataValidator.isNull(DataUtility.getString(request.getParameter("name")))) {
+		 * 
+		 * log.warn("Student name is required"); request.setAttribute("name",
+		 * "name is required"); pass = false; }
+		 */
 		if (DataValidator.isNull(DataUtility.getString(request.getParameter("physics")))) {
 
 			log.warn("Physics marks are required");
@@ -99,7 +104,7 @@ public class MarksheetCtl extends BaseCtl<MarksheetBean, MarksheetModel> {
 		log.debug("MarksheetCtl populateBean method started");
 
 		MarksheetBean bean = new MarksheetBean();
-
+	
 		bean.setRollNo(DataUtility.getString(request.getParameter("rollNo")));
 		bean.setStudentId(DataUtility.getLong(request.getParameter("studentId")));
 		bean.setName(DataUtility.getString(request.getParameter("name")));
@@ -109,11 +114,18 @@ public class MarksheetCtl extends BaseCtl<MarksheetBean, MarksheetModel> {
 
 		populateDTO(bean, request);
 
+		bean.setId(DataUtility.getLong(request.getParameter("id")));
 		log.info("MarksheetBean populated successfully");
 
 		return bean;
 	}
 
+	@Override
+	protected void preload(HttpServletRequest request) {
+	    StudentModel model = new StudentModel();
+	    List<StudentBean> studentList = model.search(null, 0, 0);
+	    request.setAttribute("studentList", studentList);
+	}
 	/**
 	 * Creates and returns the MarksheetModel object.
 	 *

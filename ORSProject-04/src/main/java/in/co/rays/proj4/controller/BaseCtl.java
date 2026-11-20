@@ -231,6 +231,7 @@ public abstract class BaseCtl<B extends BaseBean, M extends BaseModel> extends H
 		M model = getModel();
 
 		try {
+			log.info("Received Bean ID: " + bean.getId());
 			if (bean.getId() > 0) {
 				log.info("Updating record with ID: " + bean.getId());
 				model.update(bean);
@@ -278,6 +279,9 @@ public abstract class BaseCtl<B extends BaseBean, M extends BaseModel> extends H
 
 		if (request.getMethod().equals("POST") && validate(request) == false) {
 			log.warn("Request validation failed");
+			
+			ServletUtility.setBean(populateBean(request), request);   // ye line new add 
+
 			ServletUtility.forward(getView(), request, response);
 			return;
 		}

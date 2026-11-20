@@ -1,4 +1,3 @@
-
 package in.co.rays.proj4.controller;
 
 import java.io.File;
@@ -27,53 +26,74 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 
 /**
- * UploadPhotoCtl handles uploading and displaying user profile photos. It
- * processes multipart form requests, saves uploaded photos, updates the photo
- * information in the database, and displays the uploaded photo or a default
- * image.
- *
- * @author Rays Technologies
+ * UploadPhoto Controller handles uploading, retrieving, and displaying user
+ * profile photos. It supports multipart file upload and displays a default
+ * image when the user photo is not available.
+ * 
+ * @author Hema singh
  * @version 1.0
+ * @Copyright (c) Rays Technologies
  */
-@WebServlet("/ctl/uploadphoto")
+@WebServlet("/ctl/UploadPhotoCtl")
 @MultipartConfig
 public class UploadPhotoCtl extends HttpServlet {
 
 	private static Logger log = Logger.getLogger(UploadPhotoCtl.class);
 
 	/**
-	 * Handles incoming HTTP requests and delegates processing to the appropriate
-	 * HTTP method.
-	 *
-	 * @param request HttpServletRequest object containing request data
-	 * @param resp    HttpServletResponse object used to send the response
+	 * Handles HTTP requests by calling the parent service method.
+	 * 
+	 * @param request  HttpServletRequest object
+	 * @param response HttpServletResponse object
 	 * @throws ServletException if a servlet-related error occurs
-	 * @throws IOException      if an input or output error occurs
+	 * @throws IOException      if an input/output error occurs
 	 */
+
 	@Override
-	protected void service(HttpServletRequest request, HttpServletResponse resp) throws ServletException, IOException {
+	protected void service(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
 		log.debug("UploadPhotoCtl service method started");
 
 		RoleModel model = new RoleModel();
 		try {
-
+			List l = model.search(null, 0, 0);
+			request.setAttribute("roleList", l);
+			log.debug("Role list loaded successfully");
 		} catch (ApplicationException e) {
-			log.error("Application exception occurred in service method", e);
+			log.error("Unable to load role list", e);
 		}
-		super.service(request, resp);
+
+		super.service(request, response);
 
 		log.debug("UploadPhotoCtl service method completed");
+
+		/*
+		 * RoleModel model = new RoleModel();
+		 * 
+		 * List<RoleBean> roleList = model.search(null, 0, 0);
+		 * 
+		 * request.setAttribute("roleList", roleList);
+		 * 
+		 * super.service(request, response);
+		 */
 	}
 
+	/*
+	 * @Override protected void service(HttpServletRequest request,
+	 * HttpServletResponse response) throws ServletException, IOException {
+	 * super.service(request, response); }
+	 */
+
 	/**
-	 * Retrieves and displays the user's profile photo. If the user photo is
-	 * unavailable, the default image is displayed.
-	 *
-	 * @param request  HttpServletRequest object containing the user ID
-	 * @param response HttpServletResponse object used to send the image
+	 * Retrieves and displays the user's profile photo. If the user's photo is
+	 * available, it displays that photo. Otherwise, it displays the default logo
+	 * image.
+	 * 
+	 * @param request  HttpServletRequest object containing user ID
+	 * @param response HttpServletResponse object used to display the image
 	 * @throws ServletException if a servlet-related error occurs
-	 * @throws IOException      if an input or output error occurs
+	 * @throws IOException      if an input/output error occurs
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -83,16 +103,14 @@ public class UploadPhotoCtl extends HttpServlet {
 
 		long id = DataUtility.getLong(request.getParameter("id"));
 
-		log.info("Retrieving profile photo for user ID: " + id);
-
 		UserModel model = new UserModel();
 		UserBean bean = null;
 
 		try {
 			bean = model.findByPK(id);
-			log.info("User details retrieved successfully");
+			log.debug("User details retrieved for photo display");
 		} catch (Exception e) {
-			log.error("Error while retrieving user details", e);
+			log.error("Unable to retrieve user details", e);
 			e.printStackTrace();
 		}
 
@@ -105,7 +123,7 @@ public class UploadPhotoCtl extends HttpServlet {
 
 			if (file.exists()) {
 
-				log.info("User profile photo found");
+				log.debug("User profile photo found");
 
 				response.setContentType(getServletContext().getMimeType(file.getName()));
 
@@ -122,13 +140,13 @@ public class UploadPhotoCtl extends HttpServlet {
 				in.close();
 				out.close();
 
-				log.debug("User profile photo displayed successfully");
+				log.info("User profile photo displayed successfully");
 
 				return;
 			}
 		}
 
-		log.warn("User profile photo not found, displaying default image");
+		log.debug("Displaying default profile photo");
 
 		// Default photo
 		InputStream in = getServletContext().getResourceAsStream("/img/logo.png");
@@ -148,17 +166,17 @@ public class UploadPhotoCtl extends HttpServlet {
 		out.close();
 
 		log.info("Default profile photo displayed successfully");
-
 	}
 
 	/**
-	 * Handles the photo upload request. Reads the uploaded photo, saves it to the
-	 * configured folder, and updates the user's photo information in the database.
-	 *
-	 * @param request  HttpServletRequest object containing the uploaded photo
-	 * @param response HttpServletResponse object used to send the response
+	 * Handles the photo upload request. Reads the uploaded photo, saves it into the
+	 * configured photo directory, updates the user's photo name in the database,
+	 * and displays the appropriate success or error message.
+	 * 
+	 * @param request  HttpServletRequest object containing uploaded photo
+	 * @param response HttpServletResponse object
 	 * @throws ServletException if a servlet-related error occurs
-	 * @throws IOException      if an input or output error occurs
+	 * @throws IOException      if an input/output error occurs
 	 */
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -167,47 +185,40 @@ public class UploadPhotoCtl extends HttpServlet {
 		log.debug("UploadPhotoCtl doPost method started");
 
 		long id = DataUtility.getLong(request.getParameter("id"));
-		log.info("Processing photo upload for user ID: " + id);
-
 		UserModel model = new UserModel();
 		UserBean bean = model.findByPK(id);
 		ServletUtility.setBean(bean, request);
-		// Get uploaded photo
+
+		// get uploaded photo
 		Part part = request.getPart("photo");
 
 		if (part == null || part.getSize() == 0) {
-			log.warn("Photo upload failed because no photo was selected");
-			ServletUtility.setErrorMessage("Photo is required", request);
+			log.warn("Photo upload attempted without selecting a file");
+			ServletUtility.setErrorMessage("photo is required", request);
 			ServletUtility.forward(getView(), request, response);
 			return;
 		}
 
 		String fileName = part.getSubmittedFileName();
-
+		log.info("Photo upload started");
 		System.out.println("image name: " + fileName);
 
-		log.info("Photo received for upload");
-
 		String photoPath = PropertyReader.getValue("photoPath");
-
 		System.out.println("folder path: " + photoPath);
 
 		File folder = new File(photoPath);
-
 		if (!folder.exists()) {
-			log.debug("Photo folder does not exist, creating folder");
 			folder.mkdirs();
+			log.debug("Photo directory created");
 		}
 
 		File destFile = new File(folder, fileName);
-
 		InputStream input = part.getInputStream();
 		FileOutputStream output = new FileOutputStream(destFile);
 
 		byte[] buffer = new byte[4096];
 
 		int bytesRead = input.read(buffer);
-
 		while (bytesRead != -1) {
 			output.write(buffer, 0, bytesRead);
 			bytesRead = input.read(buffer);
@@ -216,21 +227,16 @@ public class UploadPhotoCtl extends HttpServlet {
 		input.close();
 		output.close();
 
-		log.info("Photo file saved successfully");
-
 		try {
-
 			model.updatePhoto(id, fileName);
-			ServletUtility.setSuccessMessage("photo upload successfully", request);
+			ServletUtility.setSuccessMessage("photo uploaded successfully", request);
 
-			System.out.println("Photo uploaded successfully: " + fileName);
-
-			log.info("Photo information updated successfully in database");
-
+			log.info("Photo uploaded and database updated successfully");
+			System.out.println("photo uploaded successfully " + fileName);
 		} catch (ApplicationException e) {
-			log.error("Application exception occurred while updating photo information", e);
+			log.error("Photo upload database update failed", e);
 			e.printStackTrace();
-			ServletUtility.setErrorMessage("Photo upload failed", request);
+			ServletUtility.setErrorMessage("photo upload failed", request);
 			ServletUtility.forward(getView(), request, response);
 			return;
 		}
@@ -241,9 +247,9 @@ public class UploadPhotoCtl extends HttpServlet {
 	}
 
 	/**
-	 * Returns the view page for user photo operations.
-	 *
-	 * @return user view path
+	 * Returns the User View page.
+	 * 
+	 * @return User View path
 	 */
 	public String getView() {
 
@@ -251,4 +257,5 @@ public class UploadPhotoCtl extends HttpServlet {
 
 		return ORSView.USER_VIEW;
 	}
+
 }

@@ -165,9 +165,16 @@ public class StudentBean extends BaseBean {
 	 *
 	 * @return null
 	 */
+
+	@Override
+	public String getKey() {
+
+		return id + "";
+	}
+
 	@Override
 	public String getValue() {
-		return null;
+		return firstName + " " + lastName;
 	}
 
 	/**

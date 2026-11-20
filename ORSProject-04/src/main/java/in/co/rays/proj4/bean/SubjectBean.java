@@ -93,7 +93,6 @@ public class SubjectBean extends BaseBean {
 	public void setResultSet(ResultSet rs) {
 		try {
 			setName(rs.getString("name"));
-			;
 			setDescription(rs.getString("description"));
 			setCourseId(rs.getInt("course_id"));
 		} catch (Exception e) {

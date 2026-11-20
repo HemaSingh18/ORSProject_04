@@ -47,11 +47,11 @@ public class FacultyCtl extends BaseCtl<FacultyBean, FacultyModel> {
 
 		boolean pass = true;
 
-		if (DataValidator.isNull(request.getParameter("collegeName"))) {
+		if (DataValidator.isNull(request.getParameter("collegeId"))) {
 
 			log.warn("College name is missing");
 
-			request.setAttribute("collegeName", "college name is required");
+			request.setAttribute("collegeId", "college is required");
 
 			pass = false;
 		}
@@ -75,7 +75,7 @@ public class FacultyCtl extends BaseCtl<FacultyBean, FacultyModel> {
 
 			log.warn("Faculty email is missing");
 
-			request.setAttribute("email", "emial is required");
+			request.setAttribute("email", "email is required");
 
 			pass = false;
 		}
@@ -103,7 +103,7 @@ public class FacultyCtl extends BaseCtl<FacultyBean, FacultyModel> {
 
 			pass = false;
 		}
-		if (DataValidator.isDate(request.getParameter("dateOfBirth"))) {
+		if (DataValidator.isNull(request.getParameter("dateOfBirth"))) {
 
 			log.warn("Faculty date of birth is invalid or missing");
 
@@ -146,8 +146,8 @@ public class FacultyCtl extends BaseCtl<FacultyBean, FacultyModel> {
 
 		FacultyBean bean = new FacultyBean();
         
-		bean.setId(DataUtility.getLong(request.getParameter("id")));
-		bean.setCollegeName(DataUtility.getString(request.getParameter("collegeName")));
+		//bean.setId(DataUtility.getLong(request.getParameter("id")));
+		//bean.setCollegeName(DataUtility.getString(request.getParameter("collegeName")));
 		bean.setFirstName(DataUtility.getString(request.getParameter("firstName")));
 		bean.setLastName(DataUtility.getString(request.getParameter("lastName")));
 		bean.setEmail(DataUtility.getString(request.getParameter("email")));
@@ -157,11 +157,18 @@ public class FacultyCtl extends BaseCtl<FacultyBean, FacultyModel> {
 		bean.setDateOfBirth(DataUtility.getDate(request.getParameter("dateOfBirth")));
 		bean.setCollegeId(DataUtility.getLong(request.getParameter("collegeId")));
 
+		log.info("Faculty ID received from form: " + bean.getId());
+		log.info("Gender received from form: " + bean.getGender());
+		log.info("DOB received from form: " + request.getParameter("dateOfBirth"));
+		
 		log.debug("Faculty details populated in FacultyBean");
 
 		populateDTO(bean, request);
 
 		log.info("FacultyBean populated successfully");
+		// ID ko populateDTO ke baad set karein
+	    bean.setId(DataUtility.getLong(request.getParameter("id")));
+
 
 		return bean;
 	}

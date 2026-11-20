@@ -45,13 +45,13 @@ public class FacultyModel extends BaseModel<FacultyBean> {
 			conn.setAutoCommit(false);
 			PreparedStatement pstmt = conn
 					.prepareStatement("insert into " + getTable() + " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-			pstmt.setInt(1, nextPk());
+			pstmt.setLong(1, PK);
 			pstmt.setLong(2, bean.getCollegeId());
 			pstmt.setString(3, cbean.getName());
 			pstmt.setString(4, bean.getFirstName());
 			pstmt.setString(5, bean.getLastName());
-			pstmt.setString(6, bean.getMobileNo());
-			pstmt.setString(7, bean.getEmail());
+			pstmt.setString(6, bean.getEmail());
+			pstmt.setString(7, bean.getMobileNo());
 			pstmt.setString(8, bean.getAddress());
 			pstmt.setString(9, bean.getGender());
 			pstmt.setDate(10, new java.sql.Date((bean.getDateOfBirth()).getTime()));
@@ -101,8 +101,8 @@ public class FacultyModel extends BaseModel<FacultyBean> {
 			pstmt.setString(2, cbean.getName());
 			pstmt.setString(3, bean.getFirstName());
 			pstmt.setString(4, bean.getLastName());
-			pstmt.setString(5, bean.getMobileNo());
-			pstmt.setString(6, bean.getEmail());
+			pstmt.setString(5, bean.getEmail());
+			pstmt.setString(6, bean.getMobileNo());
 			pstmt.setString(7, bean.getAddress());
 			pstmt.setString(8, bean.getGender());
 			pstmt.setDate(9, new java.sql.Date((bean.getDateOfBirth()).getTime()));
@@ -136,32 +136,48 @@ public class FacultyModel extends BaseModel<FacultyBean> {
 
 		if (bean != null) {
 			if (bean.getId() > 0) {
-				sql.append(" and id =" + bean.getId());
+				sql.append(" and id = " + bean.getId());
 			}
-			if (bean.getFirstName() != null && bean.getFirstName().length() > 0) {
-				sql.append(" and first_name like '" + bean.getFirstName() + "%'");
-			}
-			if (bean.getLastName() != null && bean.getLastName().length() > 0) {
-				sql.append(" and last_name '" + bean.getLastName() + "%'");
-			}
-			if (bean.getCollegeId() != 0) {
-				sql.append(" and college_id =" + bean.getCollegeId());
+			if (bean.getCollegeId() > 0) {
+				sql.append(" and college_id = " + bean.getCollegeId());
 			}
 			if (bean.getCollegeName() != null && bean.getCollegeName().length() > 0) {
-				sql.append(" and college_name =" + bean.getCollegeName());
+				sql.append(" and college_name like'" + bean.getCollegeName() + "'");
 			}
-			if (bean.getGender() != null && bean.getGender().length() > 0) {
-				sql.append(" and gender like '" + bean.getGender() + "%'");
+			if (bean.getFirstName() != null && bean.getFirstName().length() > 0) {
+				sql.append(" and first_name like '" + bean.getFirstName() + "'");
+			}
+			if (bean.getLastName() != null && bean.getLastName().length() > 0) {
+				sql.append(" and last_name like '" + bean.getLastName() + "'");
 			}
 			if (bean.getEmail() != null && bean.getEmail().length() > 0) {
-				sql.append(" and email like '" + bean.getEmail() + "%'");
+				sql.append(" and email like '" + bean.getEmail() + "'");
+			}
+			if (bean.getMobileNo() != null && bean.getMobileNo().length() > 10) {
+				sql.append(" and mobile_no like '" + bean.getMobileNo() + "'");
+			}
+			if (bean.getAddress() != null && bean.getAddress().length() > 0) {
+				sql.append(" and address = '" + bean.getAddress() + "%'");
+			}
+			if (bean.getGender() != null && bean.getGender().length() > 0) {
+				sql.append(" and gender like '" + bean.getGender() + "'");
 			}
 			if (bean.getDateOfBirth() != null) {
-				sql.append(" and date_of_birth like =" + bean.getDateOfBirth());
-
+				sql.append(" and date_of_birth = " + bean.getDateOfBirth());
+			}
+			if (bean.getCreatedBy() != null && bean.getCreatedBy().length() > 0) {
+				sql.append(" and created_by like'" + bean.getCreatedBy() + "'");
+			}
+			if (bean.getModifiedBy() != null && bean.getModifiedBy().length() > 0) {
+				sql.append(" and modified_by like'" + bean.getModifiedBy() + "'");
+			}
+			if (bean.getCreatedDatetime() != null) {
+				sql.append(" and created_datetime like'" + bean.getCreatedDatetime() + "'");
+			}
+			if (bean.getModifiedDatetime() != null) {
+				sql.append(" and modified_datetime like'" + bean.getModifiedDatetime() + "'");
 			}
 		}
-
 		return sql.toString();
 	}
 

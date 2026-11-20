@@ -82,7 +82,7 @@
 					<td><%=bean.getDateOfBirth()%></td>
 					<td><%=bean.getCollegeId()%></td>
 
-					<td><a href="<%=ORSView.FACULTY_CTL + "?id" + bean.getId()%>">Edit</a></td>
+					<td><a href="<%=ORSView.FACULTY_CTL + "?id=" + bean.getId()%>">Edit</a></td>
 
 				</tr>
 				<%

@@ -1,3 +1,4 @@
+<%@page import="in.co.rays.proj4.bean.StudentBean"%>
 <%@page import="in.co.rays.proj4.util.HTMLUtility"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="in.co.rays.proj4.bean.MarksheetBean"%>
@@ -19,15 +20,11 @@
 	<%
 	String succ = ServletUtility.getSuccessMessage(request);
 	String error = ServletUtility.getErrorMessage(request);
-	List<MarksheetBean> marksheetList = (List) request.getAttribute("marksheetList");
-	HashMap<String, String> map = new HashMap<String, String>();
-	map.put("male", "male");
-	map.put("female", "female");
-	map.put("other", "other");
+	List<StudentBean> studentList = (List) request.getAttribute("studentList");
 	%>
 	<%@include file="Header.jsp"%>
 	<div align="center">
-		<h1><%=bean != null && bean.getId() > 0 ? "Update Marksheet" : "Add Marksheet"%></h1>
+		<h1><%=bean != null && bean.getId()>0 ? "Update Marksheet" : "Add Marksheet"%></h1>
 		<h3 style="color: green"><%=succ%></h3>
 		<h3 style="color: red"><%=error%></h3>
 		<form action="<%=ORSView.MARKSHEET_CTL%>" method="post">
@@ -42,9 +39,9 @@
 
 				<tr>
 					<th>Student Name<font color="red">*</font></th>
-					<td><%=HTMLUtility.getList("studentId", DataUtility.getStringData(bean.getStudentId()), marksheetList)%></td>
-					<td style="color: red"><%=ServletUtility.getErrorMessage("studentId", request)%></td>
-
+					<td><%=HTMLUtility.getList("studentId", DataUtility.getStringData(bean.getStudentId()),studentList)%></td>
+						<td style="color: red"><%=ServletUtility.getErrorMessage("studentId", request)%></td>
+				
 				</tr>
 				<tr>
 					<th>Physics<font color="red">*</font></th>
@@ -69,11 +66,11 @@
 						value="<%=DataUtility.getStringData(bean.getMaths())%>"></td>
 					<td style="color: red"><%=ServletUtility.getErrorMessage("maths", request)%></td>
 				</tr>
-
+				
 				<tr>
 					<td><input type="hidden" name="id" value="<%=bean.getId()%>"></td>
 				</tr>
-
+				
 
 				<tr>
 					<th></th>

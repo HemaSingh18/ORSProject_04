@@ -40,6 +40,7 @@ public class MarksheetModel extends BaseModel<MarksheetBean> {
 		Connection conn = null;
 		StudentModel smodel = new StudentModel();
 		StudentBean sbean = smodel.findByPK(bean.getStudentId());
+		bean.setName(sbean.getFirstName() + " " + sbean.getLastName());
 
 		try {
 			PK = nextPk();
@@ -86,6 +87,7 @@ public class MarksheetModel extends BaseModel<MarksheetBean> {
 		Connection conn = null;
 		StudentModel smodel = new StudentModel();
 		StudentBean sbean = smodel.findByPK(bean.getStudentId());
+		bean.setName(sbean.getFirstName() + " " + sbean.getLastName());
 
 		MarksheetBean existBean = findByRollNumber(bean.getRollNo());
 		if (existBean != null && existBean.getId() != bean.getId()) {
